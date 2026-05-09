@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIMOGY | My Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700;6..96,800;6..96,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif; color: white; min-height: 100vh;
+            display: flex; flex-direction: column;
+            background: #060d1a;
+        }
+
+        /* Animated gradient orbs */
+        .orb { position: fixed; border-radius: 50%; filter: blur(100px); z-index: 0; pointer-events: none; animation: orbFloat 12s infinite ease-in-out; }
+        .orb-1 { width: 400px; height: 400px; background: rgba(0,180,216,0.06); top: -10%; left: -5%; }
+        .orb-2 { width: 350px; height: 350px; background: rgba(0,230,118,0.04); bottom: -15%; right: -8%; animation-delay: 4s; }
+        .orb-3 { width: 280px; height: 280px; background: rgba(255,215,0,0.04); top: 40%; left: 30%; animation-delay: 7s; }
+        @keyframes orbFloat { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(40px,-30px) scale(1.2); } 66% { transform: translate(-30px,20px) scale(0.9); } }
+
+        .bg-particles {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none; overflow: hidden;
+        }
+        .bg-dot {
+            position: absolute; width: 3px; height: 3px; border-radius: 50%;
+            background: rgba(0, 180, 216, 0.2); animation: dotFloat 15s infinite linear;
+        }
+        @keyframes dotFloat {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Floating shapes */
+        .floating-shape {
+            position: fixed; z-index: 0; pointer-events: none; opacity: 0.04;
+            border: 2px solid rgba(0,180,216,0.3); border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: shapeFloat 20s infinite linear;
+        }
+        .floating-shape:nth-child(1) { width: 300px; height: 300px; top: 20%; left: 10%; }
+        .floating-shape:nth-child(2) { width: 200px; height: 200px; bottom: 30%; right: 15%; animation-delay: -8s; border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; }
+        @keyframes shapeFloat { 
+            0% { transform: rotate(0deg) translate(0,0); } 
+            50% { transform: rotate(180deg) translate(30px,-30px); } 
+            100% { transform: rotate(360deg) translate(0,0); } 
+        }
+
+        .navbar {
+            background: rgba(6,13,26,0.94); backdrop-filter: blur(20px);
+            padding: 0.8rem 2rem; position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(0,180,216,0.2);
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+        }
+        .logo-text h1 {
+            font-family: 'Bodoni Moda', serif; font-size: 1.3rem; font-weight: 900;
+            background: linear-gradient(135deg, #ffffff, #48cae4);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .logo-text p { font-size: 0.5rem; letter-spacing: 2px; color: #48cae4; }
+
+        /* Login */
+        .login-wrap {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            padding: 2rem; position: relative; z-index: 1;
+            background: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1920&h=1080&fit=crop') center/cover no-repeat;
+        }
+        .login-wrap::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(6,13,26,0.92) 0%, rgba(10,30,55,0.88) 100%);
+            backdrop-filter: blur(8px);
+        }
+        .login-box {
+            position: relative; z-index: 1;
+            background: linear-gradient(145deg, rgba(10,26,53,0.9), rgba(13,34,71,0.85));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0,180,216,0.25); border-radius: 28px;
+            padding: 3rem 2.5rem; width: 100%; max-width: 420px; text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 40px rgba(0,180,216,0.06);
+        }
+        .login-box .login-icon {
+            width: 80px; height: 80px; 
+            background: linear-gradient(135deg, rgba(0,180,216,0.3), rgba(0,119,182,0.2));
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.5rem; font-size: 2.2rem; 
+            border: 2px solid rgba(0,180,216,0.4);
+            box-shadow: 0 0 40px rgba(0,180,216,0.2), inset 0 0 20px rgba(0,180,216,0.1);
+        }
+        .login-box h2 { 
+            font-family: 'Playfair Display', serif; color: #ffffff; margin-bottom: 0.3rem; 
+            font-size: 1.5rem; letter-spacing: 1px;
+        }
+        .login-box p { color: rgba(255,255,255,0.45); font-size: 0.8rem; margin-bottom: 1.5rem; }
+        .login-box input {
+            width: 100%; padding: 14px 20px; margin: 8px 0; border-radius: 50px;
+            border: 1px solid rgba(0,180,216,0.2); 
+            background: rgba(255,255,255,0.04);
+            color: white; outline: none; font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .login-box input:focus { 
+            border-color: #00b4d8; 
+            box-shadow: 0 0 0 4px rgba(0,180,216,0.08);
+            background: rgba(255,255,255,0.06);
+        }
+        .login-box input::placeholder { color: rgba(255,255,255,0.3); }
+        .btn-primary {
+            width: 100%; padding: 14px; border: none; border-radius: 50px;
+            background: linear-gradient(135deg, #00b4d8, #0077b6); color: white;
+            font-weight: 700; cursor: pointer; margin-top: 1rem; font-size: 0.95rem;
+            transition: all 0.3s; letter-spacing: 0.5px;
+            box-shadow: 0 8px 25px rgba(0,180,216,0.25);
+        }
+        .btn-primary:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 15px 35px rgba(0,180,216,0.4);
+            background: linear-gradient(135deg, #48cae4, #0096c7);
+        }
+
+        /* Dashboard Container */
+        .dash-container { 
+            display: none; flex: 1; padding: 2rem; max-width: 1050px; 
+            margin: 0 auto; width: 100%; position: relative; z-index: 1; 
+        }
+
+        /* Welcome Card */
+        .welcome-card {
+            background: linear-gradient(135deg, rgba(0,180,216,0.08), rgba(0,119,182,0.05));
+            border: 1px solid rgba(0,180,216,0.15);
+            border-radius: 22px; padding: 2rem; text-align: center; margin-bottom: 2rem;
+            position: relative; overflow: hidden;
+        }
+        .welcome-card::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(0,180,216,0.04) 0%, transparent 70%);
+            animation: welcomeGlow 6s infinite linear;
+        }
+        @keyframes welcomeGlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .welcome-card h2 { 
+            font-size: 1.5rem; margin-bottom: 0.3rem; position: relative;
+            font-family: 'Playfair Display', serif;
+        }
+        .welcome-card .subtitle { color: rgba(255,255,255,0.55); font-size: 0.85rem; position: relative; }
+        .welcome-card .member-avatar {
+            width: 70px; height: 70px; border-radius: 50%; 
+            background: linear-gradient(135deg, #ffd700, #ffb800);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1rem; font-size: 1.8rem; font-weight: 700;
+        }
+        .live-indicator {
+            display: inline-flex; align-items: center; gap: 6px; color: #00e676; font-size: 0.7rem;
+            background: rgba(0,230,118,0.1); padding: 5px 12px; border-radius: 15px; 
+            margin-top: 0.8rem; position: relative;
+            border: 1px solid rgba(0,230,118,0.2);
+        }
+        .live-dot { 
+            width: 7px; height: 7px; background: #00e676; border-radius: 50%; 
+            animation: pulse 2s infinite; box-shadow: 0 0 8px #00e676;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.5); } }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); 
+            gap: 1.2rem; margin-bottom: 2rem;
+        }
+        .stat-box {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 18px; padding: 1.5rem; text-align: center; 
+            transition: all 0.3s; position: relative; overflow: hidden;
+        }
+        .stat-box::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, #00b4d8, transparent);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .stat-box:hover::after { opacity: 1; }
+        .stat-box:hover { 
+            border-color: rgba(0,180,216,0.3); 
+            transform: translateY(-4px); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        .stat-box .stat-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .stat-box .val { font-size: 1.5rem; font-weight: 800; color: #ffd700; }
+        .stat-box .lbl { font-size: 0.7rem; color: rgba(255,255,255,0.45); margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Section Cards */
+        .section-card {
+            background: rgba(255,255,255,0.015); 
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 18px; padding: 1.5rem; margin-bottom: 1.2rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        .section-card:hover { border-color: rgba(0,180,216,0.2); }
+        .section-card .section-header {
+            display: flex; align-items: center; gap: 8px; margin-bottom: 1rem;
+            padding-bottom: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .section-card h4 { 
+            color: #48cae4; font-size: 1.05rem; margin: 0;
+            font-family: 'Playfair Display', serif; letter-spacing: 0.5px;
+        }
+        .section-card .section-icon {
+            width: 35px; height: 35px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+        }
+        .icon-investments { background: rgba(0,180,216,0.15); }
+        .icon-savings { background: rgba(0,230,118,0.15); }
+        .icon-loans { background: rgba(255,152,0,0.15); }
+        .icon-cycles { background: rgba(156,39,176,0.15); }
+
+        .item-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.7rem 0.8rem; margin-bottom: 3px;
+            border-radius: 10px; flex-wrap: wrap; gap: 0.5rem;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        .item-row:hover { 
+            background: rgba(0,180,216,0.04); 
+            border-color: rgba(0,180,216,0.1);
+        }
+        .badge {
+            padding: 5px 12px; border-radius: 15px; font-size: 0.65rem; font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .badge-active { background: rgba(0,230,118,0.15); color: #00e676; border: 1px solid rgba(0,230,118,0.2); }
+        .badge-pending { background: rgba(255,152,0,0.12); color: #ffb800; border: 1px solid rgba(255,152,0,0.2); }
+        .badge-info { background: rgba(0,180,216,0.12); color: #48cae4; border: 1px solid rgba(0,180,216,0.2); }
+        .badge-approved { background: rgba(0,230,118,0.15); color: #00e676; border: 1px solid rgba(0,230,118,0.2); }
+        .badge-completed { background: rgba(156,39,176,0.12); color: #ce93d8; border: 1px solid rgba(156,39,176,0.2); }
+        .empty-msg { 
+            color: rgba(255,255,255,0.3); font-size: 0.85rem; text-align: center; 
+            padding: 2rem; 
+        }
+        .empty-msg i { font-size: 2rem; display: block; margin-bottom: 0.5rem; opacity: 0.5; }
+
+        /* Refresh Button */
+        .refresh-btn-container { text-align: center; margin-top: 1.5rem; }
+        .btn-refresh {
+            background: rgba(0,180,216,0.1); border: 1px solid rgba(0,180,216,0.3);
+            color: #48cae4; padding: 10px 25px; border-radius: 50px;
+            font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .btn-refresh:hover { 
+            background: rgba(0,180,216,0.2); 
+            border-color: #00b4d8;
+            transform: translateY(-2px);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(6,13,26,0.9); backdrop-filter: blur(15px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10000; visibility: hidden; opacity: 0; transition: 0.3s;
+        }
+        .modal-overlay.active { visibility: visible; opacity: 1; }
+        .modal-content {
+            background: linear-gradient(145deg, rgba(10,26,53,0.98), rgba(13,34,71,0.95));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0,180,216,0.3); border-radius: 24px;
+            padding: 2rem; width: 90%; max-width: 420px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+        .modal-content h3 { 
+            color: #48cae4; margin-bottom: 1rem; text-align: center; 
+            font-family: 'Playfair Display', serif; font-size: 1.2rem;
+        }
+        .modal-content input {
+            width: 100%; padding: 12px 18px; margin: 6px 0; border-radius: 50px;
+            border: 1px solid rgba(0,180,216,0.2); background: rgba(255,255,255,0.04);
+            color: white; outline: none; font-size: 0.85rem;
+        }
+        .modal-content input:focus { border-color: #00b4d8; }
+        .modal-buttons { display: flex; gap: 0.8rem; margin-top: 1rem; }
+        .modal-buttons button { 
+            flex: 1; padding: 11px; border-radius: 25px; border: none; 
+            cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: all 0.2s;
+        }
+        .btn-danger { background: rgba(255,82,82,0.2); color: #ff5252; border: 1px solid rgba(255,82,82,0.3); }
+        .btn-danger:hover { background: rgba(255,82,82,0.3); }
+        .btn-success { background: rgba(0,230,118,0.2); color: #00e676; border: 1px solid rgba(0,230,118,0.3); }
+        .btn-success:hover { background: rgba(0,230,118,0.3); }
+
+        .btn-sm {
+            padding: 7px 16px; border-radius: 20px; font-size: 0.75rem; border: none; cursor: pointer;
+            font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 5px;
+        }
+        .btn-sm-outline { 
+            background: transparent; border: 1px solid rgba(0,180,216,0.35); color: #48cae4; 
+        }
+        .btn-sm-outline:hover { background: rgba(0,180,216,0.1); border-color: #00b4d8; }
+        .btn-sm-danger { background: rgba(255,82,82,0.15); color: #ff5252; border: 1px solid rgba(255,82,82,0.25); }
+        .btn-sm-danger:hover { background: rgba(255,82,82,0.25); }
+
+        .msg { padding: 0.7rem 1rem; border-radius: 12px; margin-top: 0.5rem; font-size: 0.75rem; display: none; text-align: center; }
+        .msg-success { background: rgba(0,230,118,0.1); color: #00e676; border: 1px solid rgba(0,230,118,0.2); }
+        .msg-error { background: rgba(255,82,82,0.1); color: #ff5252; border: 1px solid rgba(255,82,82,0.2); }
+
+        footer {
+            background: rgba(6,13,26,0.9); padding: 1.5rem; text-align: center;
+            border-top: 1px solid rgba(0,180,216,0.12); font-size: 0.75rem; 
+            color: rgba(255,255,255,0.3); position: relative; z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .dash-container { padding: 1rem; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .welcome-card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Background orbs -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<div class="floating-shape"></div>
+<div class="floating-shape"></div>
+
+<div class="bg-particles" id="bgParticles"></div>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="logo-text"><h1>SHIMOGY</h1><p>MEMBER DASHBOARD</p></div>
+    <div style="display:flex;gap:0.8rem;align-items:center;">
+        <a href="index.html" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.8rem;"><i class="fas fa-home"></i> Home</a>
+        <button class="btn-sm btn-sm-outline" onclick="openPasswordModal()" id="passBtn" style="display:none;"><i class="fas fa-key"></i> Change Password</button>
+        <button class="btn-sm btn-sm-danger" onclick="memberLogout()" id="logoutBtn" style="display:none;"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+</div>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginWrap">
+    <div class="login-box">
+        <div class="login-icon">🔐</div>
+        <h2>Welcome Back</h2>
+        <p>Sign in to your investment dashboard</p>
+        <input type="tel" id="mPhone" placeholder="Phone Number (e.g., 0752259416)">
+        <input type="password" id="mPassword" placeholder="Password">
+        <div id="loginError" style="color:#ff5252;font-size:0.8rem;margin-top:0.5rem;display:none;"></div>
+        <button class="btn-primary" onclick="memberLogin()"><i class="fas fa-sign-in-alt"></i> Access My Dashboard</button>
+        <p style="color:rgba(255,255,255,0.2);font-size:0.7rem;margin-top:1rem;">Credentials provided by SHIMOGY admin</p>
+    </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dash-container" id="dashContent">
+    <div class="welcome-card">
+        <div class="member-avatar" id="dashAvatar">👤</div>
+        <h2>Welcome, <span id="dashName">Member</span>!</h2>
+        <p class="subtitle">Member since <span id="dashJoined">-</span> • Group: <span id="dashGroup">-</span></p>
+        <div class="live-indicator"><span class="live-dot"></span> Auto-refreshing every 30 seconds</div>
+    </div>
+
+    <div class="stats-row">
+        <div class="stat-box">
+            <div class="stat-icon">📈</div>
+            <div class="val" id="dashInvested">UGX 0</div>
+            <div class="lbl">Total Invested</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-icon">💰</div>
+            <div class="val" id="dashBalance">UGX 0</div>
+            <div class="lbl">Current Balance</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-icon">📊</div>
+            <div class="val" id="dashInvestments">0</div>
+            <div class="lbl">Active Investments</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-icon">💳</div>
+            <div class="val" id="dashLoans">0</div>
+            <div class="lbl">Active Loans</div>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <div class="section-header">
+            <div class="section-icon icon-investments">📈</div>
+            <h4>My Investments</h4>
+        </div>
+        <div id="dashInvestmentsList"></div>
+    </div>
+
+    <div class="section-card">
+        <div class="section-header">
+            <div class="section-icon icon-savings">💰</div>
+            <h4>My Savings</h4>
+        </div>
+        <div id="dashSavingsList"></div>
+    </div>
+
+    <div class="section-card">
+        <div class="section-header">
+            <div class="section-icon icon-loans">💳</div>
+            <h4>My Loans</h4>
+        </div>
+        <div id="dashLoansList"></div>
+    </div>
+
+    <div class="section-card">
+        <div class="section-header">
+            <div class="section-icon icon-cycles">🔄</div>
+            <h4>My Cycles</h4>
+        </div>
+        <div id="dashCyclesList"></div>
+    </div>
+
+    <div class="refresh-btn-container">
+        <button class="btn-refresh" onclick="refreshDashboard()">
+            <i class="fas fa-sync-alt"></i> Refresh Dashboard
+        </button>
+    </div>
+</div>
+
+<!-- PASSWORD CHANGE MODAL -->
+<div class="modal-overlay" id="passwordModal">
+    <div class="modal-content">
+        <h3><i class="fas fa-key"></i> Change Password</h3>
+        <input type="password" id="oldPass" placeholder="Current Password">
+        <input type="password" id="newPass" placeholder="New Password">
+        <input type="password" id="confirmPass" placeholder="Confirm New Password">
+        <div class="msg msg-error" id="passError"></div>
+        <div class="msg msg-success" id="passSuccess"></div>
+        <div class="modal-buttons">
+            <button class="btn-danger" onclick="closePasswordModal()">Cancel</button>
+            <button class="btn-success" onclick="changePassword()">Update Password</button>
+        </div>
+    </div>
+</div>
+
+<footer>© 2026 SHIMOGY Investment Group — Partners for Life | Kawempe, Kampala</footer>
+
+<script>
+  
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzhZWPqshd3kB5eC0IgK3yKy7LHZRhuYwIyRlEw-dUJaLdCxRVb4TKgT40-Asd8VaTK-g/exec';
+    let currentMember = null;
+    let autoRefreshInterval = null;
+
+  
+    (function() {
+        const c = document.getElementById('bgParticles');
+        if (!c) return;
+        for (let i = 0; i < 40; i++) {
+            const d = document.createElement('div'); d.classList.add('bg-dot');
+            d.style.left = Math.random() * 100 + '%';
+            d.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            d.style.animationDelay = Math.random() * 10 + 's';
+            c.appendChild(d);
+        }
+    })();
+
+    
+    async function memberLogin() {
+        const phone = document.getElementById('mPhone').value.trim();
+        const password = document.getElementById('mPassword').value.trim();
+        const errorEl = document.getElementById('loginError');
+        
+        if (!phone || !password) {
+            errorEl.textContent = 'Please enter both phone and password.';
+            errorEl.style.display = 'block';
+            return;
+        }
+
+        errorEl.style.display = 'none';
+        
+        try {
+            console.log('Logging in with phone:', phone);
+            const res = await fetch(API_URL + '?action=login&phone=' + encodeURIComponent(phone) + '&password=' + encodeURIComponent(password));
+            const result = await res.json();
+            console.log('Login result:', result);
+            
+            if (result.success) {
+                currentMember = result.member;
+                localStorage.setItem('shimogy_member', JSON.stringify(currentMember));
+                showDashboard();
+                startAutoRefresh();
+            } else {
+                errorEl.textContent = '❌ Invalid phone or password. Contact admin if you forgot your credentials.';
+                errorEl.style.display = 'block';
+            }
+        } catch (e) {
+            console.error('Login error:', e);
+            errorEl.textContent = '⚠️ Connection error. Please check your internet and try again.';
+            errorEl.style.display = 'block';
+        }
+    }
+
+   
+    function showDashboard() {
+        document.getElementById('loginWrap').style.display = 'none';
+        document.getElementById('dashContent').style.display = 'block';
+        document.getElementById('logoutBtn').style.display = 'inline-flex';
+        document.getElementById('passBtn').style.display = 'inline-flex';
+        updateDashboardDisplay();
+    }
+
+    function updateDashboardDisplay() {
+        if (!currentMember) return;
+        
+        document.getElementById('dashName').textContent = currentMember.Name || 'Member';
+        document.getElementById('dashJoined').textContent = currentMember.JoinDate || '-';
+        document.getElementById('dashGroup').textContent = currentMember.Group || 'Not assigned';
+        document.getElementById('dashInvested').textContent = 'UGX ' + (parseInt(currentMember.TotalInvested || 0)).toLocaleString();
+        document.getElementById('dashBalance').textContent = 'UGX ' + (parseInt(currentMember.Balance || 0)).toLocaleString();
+        document.getElementById('dashInvestments').textContent = currentMember.investments ? currentMember.investments.length : 0;
+        document.getElementById('dashLoans').textContent = currentMember.loans ? currentMember.loans.length : 0;
+        
+        // Avatar with initials
+        const name = currentMember.Name || 'Member';
+        const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        document.getElementById('dashAvatar').textContent = initials || '👤';
+
+        renderSection('dashInvestmentsList', currentMember.investments, 'PlanName', 'Amount', 'Status', 'StartDate');
+        renderSection('dashSavingsList', currentMember.savings, 'AccountType', 'Balance', 'Status', 'OpenDate');
+        renderSection('dashLoansList', currentMember.loans, 'Amount', 'Purpose', 'Status', 'RequestDate');
+        renderSection('dashCyclesList', currentMember.cycles, 'CycleName', 'Contribution', 'Status', 'JoinDate');
+    }
+
+    function renderSection(containerId, items, primaryField, secondaryField, statusField, dateField) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        
+        if (!items || items.length === 0) {
+            container.innerHTML = '<p class="empty-msg"><i class="fas fa-inbox"></i>No records yet. Data will appear once admin adds it.</p>';
+            return;
+        }
+        
+        container.innerHTML = items.map(item => {
+            let statusClass = 'badge-info';
+            const status = (item[statusField] || 'pending').toLowerCase();
+            if (status === 'active' || status === 'approved') statusClass = 'badge-active';
+            else if (status === 'pending') statusClass = 'badge-pending';
+            else if (status === 'completed') statusClass = 'badge-completed';
+            
+            let displayValue = item[primaryField] || 'N/A';
+            if (primaryField === 'Amount' || primaryField === 'Contribution') {
+                displayValue = 'UGX ' + (parseInt(item[secondaryField] || item[primaryField] || 0)).toLocaleString();
+            }
+            
+            const secondaryVal = secondaryField && item[secondaryField] && primaryField !== 'Amount' ? 
+                (['Balance'].includes(secondaryField) ? 
+                    'UGX ' + parseInt(item[secondaryField] || 0).toLocaleString() : 
+                    item[secondaryField]) : '';
+            
+            const dateVal = dateField && item[dateField] ? item[dateField] : '';
+            
+            return `
+                <div class="item-row">
+                    <span style="font-weight:500;color:rgba(255,255,255,0.85);">${displayValue}</span>
+                    ${secondaryVal ? '<span style="color:rgba(255,255,255,0.5);font-size:0.8rem;">' + secondaryVal + '</span>' : ''}
+                    ${dateVal ? '<span style="color:rgba(255,255,255,0.35);font-size:0.75rem;">📅 ' + dateVal + '</span>' : ''}
+                    <span class="badge ${statusClass}">${item[statusField] || 'pending'}</span>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function startAutoRefresh() {
+        if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+        autoRefreshInterval = setInterval(async () => {
+            console.log('🔄 Auto-refreshing dashboard...');
+            await refreshDashboardSilent();
+        }, 30000);
+    }
+
+    async function refreshDashboardSilent() {
+        if (!currentMember) return;
+        try {
+            const res = await fetch(API_URL + '?action=login&phone=' + encodeURIComponent(currentMember.Phone) + '&password=' + encodeURIComponent(currentMember.Password));
+            const result = await res.json();
+            if (result.success) {
+                currentMember = result.member;
+                localStorage.setItem('shimogy_member', JSON.stringify(currentMember));
+                updateDashboardDisplay();
+                console.log('✅ Dashboard refreshed');
+            }
+        } catch (e) {
+            console.error('Auto-refresh error:', e);
+        }
+    }
+
+    async function refreshDashboard() {
+        await refreshDashboardSilent();
+        const btn = document.querySelector('.btn-refresh');
+        if (btn) {
+            btn.innerHTML = '<i class="fas fa-check"></i> Refreshed!';
+            setTimeout(() => { btn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Dashboard'; }, 2000);
+        }
+    }
+
+   
+    function openPasswordModal() {
+        document.getElementById('oldPass').value = '';
+        document.getElementById('newPass').value = '';
+        document.getElementById('confirmPass').value = '';
+        document.getElementById('passError').style.display = 'none';
+        document.getElementById('passSuccess').style.display = 'none';
+        document.getElementById('passwordModal').classList.add('active');
+    }
+
+    function closePasswordModal() {
+        document.getElementById('passwordModal').classList.remove('active');
+    }
+
+    async function changePassword() {
+        const oldPass = document.getElementById('oldPass').value.trim();
+        const newPass = document.getElementById('newPass').value.trim();
+        const confirmPass = document.getElementById('confirmPass').value.trim();
+        
+        document.getElementById('passError').style.display = 'none';
+        document.getElementById('passSuccess').style.display = 'none';
+        
+        if (!oldPass || !newPass || !confirmPass) {
+            document.getElementById('passError').textContent = 'All fields are required.';
+            document.getElementById('passError').style.display = 'block';
+            return;
+        }
+        
+        if (oldPass !== currentMember.Password) {
+            document.getElementById('passError').textContent = 'Current password is incorrect.';
+            document.getElementById('passError').style.display = 'block';
+            return;
+        }
+        
+        if (newPass !== confirmPass) {
+            document.getElementById('passError').textContent = 'New passwords do not match.';
+            document.getElementById('passError').style.display = 'block';
+            return;
+        }
+        
+        if (newPass.length < 4) {
+            document.getElementById('passError').textContent = 'Password must be at least 4 characters.';
+            document.getElementById('passError').style.display = 'block';
+            return;
+        }
+        
+        try {
+            const params = new URLSearchParams({
+                action: 'updateMember',
+                phone: currentMember.Phone,
+                password: newPass
+            });
+            await fetch(API_URL + '?' + params.toString());
+            
+            currentMember.Password = newPass;
+            localStorage.setItem('shimogy_member', JSON.stringify(currentMember));
+            
+            document.getElementById('passSuccess').textContent = '✅ Password updated!';
+            document.getElementById('passSuccess').style.display = 'block';
+            
+            setTimeout(() => {
+                closePasswordModal();
+            }, 2000);
+        } catch (e) {
+            document.getElementById('passError').textContent = '❌ Error updating password.';
+            document.getElementById('passError').style.display = 'block';
+        }
+    }
+
+    
+    function memberLogout() {
+        if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+        currentMember = null;
+        localStorage.removeItem('shimogy_member');
+        document.getElementById('loginWrap').style.display = 'flex';
+        document.getElementById('dashContent').style.display = 'none';
+        document.getElementById('logoutBtn').style.display = 'none';
+        document.getElementById('passBtn').style.display = 'none';
+        document.getElementById('mPhone').value = '';
+        document.getElementById('mPassword').value = '';
+    }
+
+    // ============================================
+    // AUTO-LOGIN - Unchanged
+    // ============================================
+    const saved = localStorage.getItem('shimogy_member');
+    if (saved) {
+        try {
+            currentMember = JSON.parse(saved);
+            showDashboard();
+            startAutoRefresh();
+            refreshDashboardSilent();
+        } catch (e) {
+            localStorage.removeItem('shimogy_member');
+        }
+    }
+</script>
+
+</body>
+</html>

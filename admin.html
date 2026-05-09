@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIMOGY | Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700;6..96,800;6..96,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: #060d1a;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* ===== VIBRANT BACKGROUND EFFECTS ===== */
+        .glow-orb {
+            position: fixed; border-radius: 50%; filter: blur(120px);
+            z-index: 0; pointer-events: none; animation: orbPulse 10s infinite ease-in-out;
+        }
+        .glow-orb-1 { width: 500px; height: 500px; background: rgba(0,180,216,0.07); top: -15%; left: -10%; }
+        .glow-orb-2 { width: 400px; height: 400px; background: rgba(255,215,0,0.05); bottom: -20%; right: -5%; animation-delay: 3s; }
+        .glow-orb-3 { width: 350px; height: 350px; background: rgba(0,230,118,0.04); top: 40%; left: 40%; animation-delay: 6s; }
+        .glow-orb-4 { width: 300px; height: 300px; background: rgba(255,82,82,0.03); bottom: 30%; left: 25%; animation-delay: 8s; }
+        @keyframes orbPulse {
+            0%,100% { transform: translate(0,0) scale(1); opacity: 0.6; }
+            33% { transform: translate(50px,-40px) scale(1.3); opacity: 0.9; }
+            66% { transform: translate(-30px,30px) scale(0.8); opacity: 0.4; }
+        }
+
+        .grid-lines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none; opacity: 0.03;
+            background-image: linear-gradient(rgba(0,180,216,0.3) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0,180,216,0.3) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .floating-particles {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none; overflow: hidden;
+        }
+        .fp {
+            position: absolute; border-radius: 50%; animation: fpFloat 12s infinite linear;
+        }
+        @keyframes fpFloat {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: rgba(6,13,26,0.94); backdrop-filter: blur(25px);
+            padding: 0.8rem 2rem; position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(0,180,216,0.2);
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+        }
+        .logo-text h1 {
+            font-family: 'Bodoni Moda', serif; font-size: 1.35rem; font-weight: 900;
+            background: linear-gradient(135deg, #ffffff, #48cae4);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .logo-text p { font-size: 0.5rem; letter-spacing: 2px; color: #48cae4; }
+
+        /* ===== LOGIN ===== */
+        .login-wrap {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            padding: 2rem; position: relative; z-index: 1;
+            background: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop') center/cover fixed;
+        }
+        .login-wrap::before { 
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: linear-gradient(135deg, rgba(6,13,26,0.93), rgba(10,30,55,0.9)); 
+        }
+        .login-box {
+            position: relative; z-index: 1;
+            background: linear-gradient(145deg, rgba(10,26,53,0.9), rgba(13,34,71,0.85));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0,180,216,0.25); border-radius: 28px;
+            padding: 3.5rem 3rem; width: 100%; max-width: 440px; text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 50px rgba(0,180,216,0.06);
+        }
+        .login-box .login-icon {
+            width: 80px; height: 80px; 
+            background: linear-gradient(135deg, rgba(0,180,216,0.3), rgba(0,119,182,0.2));
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.8rem; font-size: 2.2rem; 
+            border: 2px solid rgba(0,180,216,0.35);
+            box-shadow: 0 0 50px rgba(0,180,216,0.2), inset 0 0 30px rgba(0,180,216,0.1);
+            animation: loginIconGlow 3s infinite;
+        }
+        @keyframes loginIconGlow {
+            0%,100% { box-shadow: 0 0 50px rgba(0,180,216,0.2); }
+            50% { box-shadow: 0 0 80px rgba(0,180,216,0.4), 0 0 120px rgba(0,180,216,0.1); }
+        }
+        .login-box h2 { 
+            font-family: 'Playfair Display', serif; color: #ffffff; margin-bottom: 0.3rem; 
+            font-size: 1.6rem; letter-spacing: 1px;
+        }
+        .login-box p { color: rgba(255,255,255,0.4); font-size: 0.82rem; margin-bottom: 1.8rem; }
+        .login-box input {
+            width: 100%; padding: 14px 20px; margin: 8px 0; border-radius: 50px;
+            border: 1px solid rgba(0,180,216,0.2); 
+            background: rgba(255,255,255,0.04);
+            color: white; outline: none; font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .login-box input:focus { 
+            border-color: #00b4d8; 
+            box-shadow: 0 0 0 4px rgba(0,180,216,0.08);
+            background: rgba(255,255,255,0.06);
+        }
+        .login-box input::placeholder { color: rgba(255,255,255,0.3); }
+        .btn-primary {
+            width: 100%; padding: 14px; border: none; border-radius: 50px;
+            background: linear-gradient(135deg, #00b4d8, #0077b6); color: white;
+            font-weight: 700; cursor: pointer; margin-top: 1.2rem; font-size: 0.95rem;
+            transition: all 0.3s; letter-spacing: 0.5px;
+            box-shadow: 0 8px 25px rgba(0,180,216,0.25);
+        }
+        .btn-primary:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 15px 40px rgba(0,180,216,0.45);
+            background: linear-gradient(135deg, #48cae4, #0096c7);
+        }
+
+        /* ===== DASHBOARD LAYOUT ===== */
+        .dashboard { display: none; }
+        .admin-layout { display: flex; min-height: calc(100vh - 70px); }
+        
+        .sidebar {
+            width: 260px; 
+            background: linear-gradient(180deg, rgba(10,20,45,0.8), rgba(15,30,55,0.6));
+            border-right: 1px solid rgba(0,180,216,0.1);
+            padding: 1.5rem 0; position: sticky; top: 70px; height: calc(100vh - 70px); overflow-y: auto;
+            backdrop-filter: blur(15px);
+        }
+        .sidebar h3 { 
+            color: #48cae4; padding: 0 1.2rem; font-size: 0.6rem; 
+            text-transform: uppercase; letter-spacing: 3px; margin: 1.2rem 0 0.6rem; 
+            font-weight: 700;
+        }
+        .sidebar h3:first-child { margin-top: 0; }
+        .sidebar a {
+            display: flex; align-items: center; gap: 10px; padding: 10px 1.2rem;
+            color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.8rem;
+            border-left: 3px solid transparent; transition: all 0.25s; cursor: pointer;
+            border-radius: 0 8px 8px 0; margin-right: 8px;
+        }
+        .sidebar a:hover, .sidebar a.active { 
+            color: #ffffff; 
+            background: linear-gradient(90deg, rgba(0,180,216,0.12), rgba(0,180,216,0.02)); 
+            border-left-color: #00e5ff; 
+            box-shadow: 0 0 15px rgba(0,180,216,0.05);
+        }
+
+        .main-content { flex: 1; padding: 2rem; overflow-x: auto; }
+        .tab-content { display: none; animation: fadeSlideIn 0.35s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1.8rem;
+            background: linear-gradient(135deg, #ffffff, #48cae4);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        /* ===== STATS ===== */
+        .stats-grid { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+            gap: 1.2rem; margin-bottom: 2.5rem; 
+        }
+        .stat-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px; padding: 1.6rem; text-align: center; 
+            transition: all 0.35s; position: relative; overflow: hidden;
+        }
+        .stat-card::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,215,0,0.05) 0%, transparent 70%);
+            opacity: 0; transition: opacity 0.4s;
+        }
+        .stat-card:hover::before { opacity: 1; }
+        .stat-card:hover { 
+            border-color: rgba(0,180,216,0.35); 
+            transform: translateY(-5px); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .stat-card .stat-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .stat-card .num { font-size: 2.2rem; font-weight: 900; color: #ffd700; position: relative; }
+        .stat-card .label { 
+            font-size: 0.72rem; color: rgba(255,255,255,0.45); margin-top: 0.4rem; 
+            text-transform: uppercase; letter-spacing: 1px; 
+        }
+
+        /* ===== PANELS ===== */
+        .panel {
+            background: linear-gradient(145deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 20px; padding: 2rem; margin-bottom: 1.8rem;
+            backdrop-filter: blur(10px);
+        }
+        .panel h3 { 
+            color: #48cae4; font-size: 1.1rem; margin-bottom: 1.3rem; 
+            display: flex; align-items: center; gap: 8px; 
+        }
+
+        /* ===== TABLES ===== */
+        .table-wrap { overflow-x: auto; border-radius: 14px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.78rem; min-width: 600px; }
+        table th { 
+            text-align: left; padding: 12px 14px; color: #48cae4; font-size: 0.68rem; 
+            text-transform: uppercase; letter-spacing: 1.5px; 
+            border-bottom: 2px solid rgba(0,180,216,0.15); background: rgba(0,0,0,0.25); 
+        }
+        table td { 
+            padding: 11px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); 
+            color: rgba(255,255,255,0.7); 
+        }
+        table tbody tr { transition: all 0.2s; }
+        table tbody tr:hover { 
+            background: linear-gradient(90deg, rgba(0,180,216,0.06), transparent); 
+        }
+
+        /* ===== FORMS ===== */
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { 
+            display: block; font-size: 0.72rem; color: #48cae4; margin-bottom: 0.4rem; 
+            font-weight: 600; letter-spacing: 1px; text-transform: uppercase; 
+        }
+        .form-group input, .form-group select {
+            width: 100%; padding: 12px 18px; border-radius: 50px;
+            border: 1px solid rgba(0,180,216,0.18); 
+            background: rgba(255,255,255,0.03);
+            color: white; outline: none; font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus { 
+            border-color: #00e5ff; 
+            box-shadow: 0 0 0 4px rgba(0,180,216,0.06);
+            background: rgba(255,255,255,0.05);
+        }
+        .form-group select option { background: #0a1a35; color: white; }
+
+        /* ===== BADGES ===== */
+        .badge {
+            padding: 5px 12px; border-radius: 15px; font-size: 0.65rem; 
+            font-weight: 600; display: inline-block; letter-spacing: 0.5px;
+        }
+        .badge-success { background: rgba(0,230,118,0.12); color: #00e676; border: 1px solid rgba(0,230,118,0.25); }
+        .badge-warning { background: rgba(255,152,0,0.12); color: #ffb800; border: 1px solid rgba(255,152,0,0.25); }
+        .badge-info { background: rgba(0,180,216,0.12); color: #48cae4; border: 1px solid rgba(0,180,216,0.25); }
+        .badge-danger { background: rgba(255,82,82,0.12); color: #ff5252; border: 1px solid rgba(255,82,82,0.25); }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            padding: 8px 18px; border-radius: 22px; font-size: 0.75rem; border: none; cursor: pointer;
+            font-weight: 600; transition: all 0.25s; display: inline-flex; align-items: center; gap: 6px;
+            letter-spacing: 0.3px;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-sm { padding: 5px 11px; font-size: 0.7rem; }
+        .btn-success { background: rgba(0,230,118,0.18); color: #00e676; border: 1px solid rgba(0,230,118,0.3); }
+        .btn-success:hover { background: rgba(0,230,118,0.3); }
+        .btn-info { background: rgba(0,180,216,0.18); color: #48cae4; border: 1px solid rgba(0,180,216,0.3); }
+        .btn-info:hover { background: rgba(0,180,216,0.3); }
+        .btn-warning { background: rgba(255,152,0,0.18); color: #ffb800; border: 1px solid rgba(255,152,0,0.3); }
+        .btn-warning:hover { background: rgba(255,152,0,0.3); }
+        .btn-danger { background: rgba(255,82,82,0.18); color: #ff5252; border: 1px solid rgba(255,82,82,0.3); }
+        .btn-danger:hover { background: rgba(255,82,82,0.3); }
+        .btn-add {
+            background: linear-gradient(135deg, #00e5ff, #0077b6); color: #000;
+            padding: 13px 30px; border-radius: 28px; font-weight: 700; border: none;
+            cursor: pointer; font-size: 0.88rem; transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 8px; margin-top: 1rem;
+            box-shadow: 0 8px 25px rgba(0,180,216,0.3); letter-spacing: 0.5px;
+        }
+        .btn-add:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 15px 40px rgba(0,180,216,0.5);
+            background: linear-gradient(135deg, #66f0ff, #0096c7);
+        }
+
+        .msg { 
+            padding: 0.9rem 1.2rem; border-radius: 14px; margin-top: 0.8rem; 
+            font-size: 0.78rem; display: none; font-weight: 500;
+        }
+        .msg-success { background: rgba(0,230,118,0.08); color: #00e676; border: 1px solid rgba(0,230,118,0.25); }
+        .msg-error { background: rgba(255,82,82,0.08); color: #ff5252; border: 1px solid rgba(255,82,82,0.25); }
+
+        .empty-state { 
+            text-align: center; padding: 3rem; color: rgba(255,255,255,0.25); font-size: 0.9rem; 
+        }
+        .empty-state i { font-size: 3rem; display: block; margin-bottom: 0.8rem; opacity: 0.4; }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
+        ::-webkit-scrollbar-thumb { background: rgba(0,180,216,0.3); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0,180,216,0.5); }
+
+        @media (max-width: 768px) {
+            .admin-layout { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: static; display: flex; overflow-x: auto; padding: 0.6rem; }
+            .sidebar a { white-space: nowrap; border-left: none; border-bottom: 2px solid transparent; padding: 8px 12px; margin-right: 0; border-radius: 0; }
+            .main-content { padding: 1rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .login-box { padding: 2.5rem 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- VIBRANT BACKGROUND EFFECTS -->
+<div class="glow-orb glow-orb-1"></div>
+<div class="glow-orb glow-orb-2"></div>
+<div class="glow-orb glow-orb-3"></div>
+<div class="glow-orb glow-orb-4"></div>
+<div class="grid-lines"></div>
+<div class="floating-particles" id="floatingParticles"></div>
+
+<div class="navbar">
+    <div class="logo-text"><h1>SHIMOGY</h1><p>ADMINISTRATOR PANEL</p></div>
+    <div style="display:flex;gap:1rem;align-items:center;">
+        <a href="index.html" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.8rem;"><i class="fas fa-home"></i> Website</a>
+        <button class="btn btn-danger" onclick="doLogout()" id="logoutBtn" style="display:none;"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+</div>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginScreen">
+    <div class="login-box">
+        <div class="login-icon">🛡️</div>
+        <h2>Administrator</h2>
+        <p>Enter your credentials to manage SHIMOGY</p>
+        <input type="text" id="adminUser" placeholder="Username">
+        <input type="password" id="adminPass" placeholder="Password">
+        <div id="loginError" style="color:#ff5252;font-size:0.8rem;margin-top:0.5rem;display:none;"></div>
+        <button class="btn-primary" onclick="doLogin()"><i class="fas fa-shield-halved"></i> Access Dashboard</button>
+    </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboardScreen">
+    <div class="admin-layout">
+        <div class="sidebar">
+            <h3>📊 Main</h3>
+            <a class="active" onclick="switchTab('overview')"><i class="fas fa-chart-pie"></i> Overview</a>
+            <a onclick="switchTab('members')"><i class="fas fa-users"></i> Members</a>
+            <a onclick="switchTab('createMember')"><i class="fas fa-user-plus"></i> Create Member</a>
+            <a onclick="switchTab('updateMember')"><i class="fas fa-edit"></i> Update Member</a>
+            
+            <h3>💰 Add Records</h3>
+            <a onclick="switchTab('addInvestment')"><i class="fas fa-chart-line"></i> Add Investment</a>
+            <a onclick="switchTab('addSavings')"><i class="fas fa-piggy-bank"></i> Add Savings</a>
+            <a onclick="switchTab('addLoan')"><i class="fas fa-hand-holding-usd"></i> Add Loan</a>
+            <a onclick="switchTab('addCycle')"><i class="fas fa-sync-alt"></i> Add Cycle Member</a>
+            
+            <h3>📋 View Records</h3>
+            <a onclick="switchTab('investments')"><i class="fas fa-list"></i> All Investments</a>
+            <a onclick="switchTab('savings')"><i class="fas fa-list"></i> All Savings</a>
+            <a onclick="switchTab('loans')"><i class="fas fa-list"></i> All Loans</a>
+            <a onclick="switchTab('cycles')"><i class="fas fa-list"></i> All Cycles</a>
+            
+            <h3>⚙️ Settings</h3>
+            <a onclick="switchTab('slots')"><i class="fas fa-ticket-alt"></i> Manage Slots</a>
+            <a onclick="switchTab('changePassword')"><i class="fas fa-key"></i> Change Password</a>
+        </div>
+
+        <div class="main-content" id="mainContent">
+            <!-- OVERVIEW -->
+            <div class="tab-content active" id="tab-overview">
+                <h2 class="page-title"><i class="fas fa-chart-pie" style="color:#ffd700;"></i> Dashboard Overview</h2>
+                <div class="stats-grid" id="overviewStats"></div>
+                <div class="panel">
+                    <h3><i class="fas fa-bolt" style="color:#ffd700;"></i> Quick Actions</h3>
+                    <button class="btn btn-info" onclick="refreshAll()"><i class="fas fa-refresh"></i> Refresh Data</button>
+                    <button class="btn btn-add" onclick="window.open('https://docs.google.com/spreadsheets/d/1kBio9QsK0m8gG5kj8zO-S8HfLMvw8ZCAJchg5LWnKS8/edit','_blank')"><i class="fas fa-table"></i> Open Google Sheet</button>
+                </div>
+            </div>
+
+            <!-- MEMBERS -->
+            <div class="tab-content" id="tab-members">
+                <h2 class="page-title"><i class="fas fa-users" style="color:#48cae4;"></i> All Members</h2>
+                <div class="table-wrap" id="membersTable"></div>
+            </div>
+
+            <!-- CREATE MEMBER -->
+            <div class="tab-content" id="tab-createMember">
+                <h2 class="page-title"><i class="fas fa-user-plus" style="color:#00e676;"></i> Create New Member</h2>
+                <div class="panel">
+                    <div class="form-row">
+                        <div class="form-group"><label>Full Name *</label><input type="text" id="newName" placeholder="John Mukasa"></div>
+                        <div class="form-group"><label>Phone Number *</label><input type="tel" id="newPhone" placeholder="0752259416"></div>
+                        <div class="form-group"><label>Password *</label><input type="text" id="newPassword" placeholder="e.g., 1234"></div>
+                        <div class="form-group"><label>Email</label><input type="email" id="newEmail" placeholder="email@example.com"></div>
+                        <div class="form-group"><label>Assign Group</label><input type="text" id="newGroup" placeholder="Kawempe Savers"></div>
+                        <div class="form-group"><label>Initial Balance (UGX)</label><input type="number" id="newBalance" value="0"></div>
+                    </div>
+                    <button class="btn-add" onclick="createMember()"><i class="fas fa-user-plus"></i> Create Member</button>
+                    <div class="msg msg-success" id="createSuccess"></div>
+                    <div class="msg msg-error" id="createError"></div>
+                </div>
+            </div>
+
+            <!-- UPDATE MEMBER -->
+            <div class="tab-content" id="tab-updateMember">
+                <h2 class="page-title"><i class="fas fa-edit" style="color:#ffb800;"></i> Update Member</h2>
+                <div class="panel">
+                    <div class="form-row">
+                        <div class="form-group"><label>Member Phone *</label><input type="tel" id="updPhone" placeholder="Enter phone to find member"></div>
+                        <div class="form-group"><label>New Balance</label><input type="number" id="updBalance" placeholder="UGX"></div>
+                        <div class="form-group"><label>Total Invested</label><input type="number" id="updInvested" placeholder="UGX"></div>
+                        <div class="form-group"><label>Status</label><select id="updStatus"><option value="">No change</option><option value="active">Active</option><option value="inactive">Inactive</option></select></div>
+                        <div class="form-group"><label>New Password</label><input type="text" id="updPassword" placeholder="Leave blank"></div>
+                    </div>
+                    <button class="btn-add" onclick="updateMember()"><i class="fas fa-save"></i> Update Member</button>
+                    <div class="msg msg-success" id="updSuccess"></div>
+                </div>
+            </div>
+
+            <!-- ADD INVESTMENT -->
+            <div class="tab-content" id="tab-addInvestment">
+                <h2 class="page-title"><i class="fas fa-chart-line" style="color:#48cae4;"></i> Add Investment for Member</h2>
+                <div class="panel">
+                    <div class="form-row">
+                        <div class="form-group"><label>Member Phone *</label><input type="tel" id="invPhone" placeholder="Member's phone"></div>
+                        <div class="form-group"><label>Member Name</label><input type="text" id="invName" placeholder="Auto-fills if member exists"></div>
+                        <div class="form-group"><label>Plan *</label>
+                            <select id="invPlan">
+                                <option value="">Select Plan</option>
+                                <option>Men's Hair Salon</option><option>Poultry Farm</option><option>Restaurant</option>
+                                <option>Modern Stall</option><option>Classic Boutique</option><option>Grocery Store</option>
+                                <option>Transport Business</option><option>Modern Construction</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label>Amount (UGX) *</label><input type="number" id="invAmount" placeholder="500000"></div>
+                        <div class="form-group"><label>Expected Return (UGX)</label><input type="number" id="invReturn" placeholder="700000"></div>
+                        <div class="form-group"><label>Duration</label><input type="text" id="invDuration" placeholder="60 Days"></div>
+                        <div class="form-group"><label>Status</label><select id="invStatus"><option value="active">Active</option><option value="pending">Pending</option><option value="completed">Completed</option></select></div>
+                    </div>
+                    <button class="btn-add" onclick="addInvestment()"><i class="fas fa-plus-circle"></i> Add Investment</button>
+                    <div class="msg msg-success" id="invSuccess"></div>
+                    <div class="msg msg-error" id="invError"></div>
+                </div>
+            </div>
+
+            <!-- ADD SAVINGS -->
+            <div class="tab-content" id="tab-addSavings">
+                <h2 class="page-title"><i class="fas fa-piggy-bank" style="color:#ffb800;"></i> Add Savings Account</h2>
+                <div class="panel">
+                    <div class="form-row">
+                        <div class="form-group"><label>Member Phone *</label><input type="tel" id="savPhone" placeholder="Member's phone"></div>
+                        <div class="form-group"><label>Member Name</label><input type="text" id="savName" placeholder="Auto-fills if member exists"></div>
+                        <div class="form-group"><label>Account Type *</label><select id="savType"><option value="">Select</option><option>Current Account</option><option>Fixed Deposit Account</option></select></div>
+                        <div class="form-group"><label>Balance (UGX)</label><input type="number" id="savBalance" value="0"></div>
+                        <div class="form-group"><label>Status</label><select id="savStatus"><option value="active">Active</option><option value="pending">Pending</option></select></div>
+                    </div>
+                    <button class="btn-add" onclick="addSavings()"><i class="fas fa-plus-circle"></i> Add Savings</button>
+                    <div class="msg msg-success" id="savSuccess"></div>
+                </div>
+            </div>
+
+            <!-- ADD LOAN -->
+            <div class="tab-content" id="tab-addLoan">
+                <h2 class="page-title"><i class="fas fa-hand-holding-usd" style="color:#ff5252;"></i> Add Loan Request</h2>
+                <div class="panel">
+                    <div class="form-row">
+                        <div class="form-group"><label>Member Phone *</label><input type="tel" id="loanPhone" placeholder="Member's phone"></div>
+                        <div class="form-group"><label>Member Name</label><input type="text" id="loanName" placeholder="Auto-fills if member exists"></div>
+                        <div class="form-group"><label>Loan Amount (UGX) *</label><input type="number" id="loanAmount" placeholder="500000"></div>
+                        <div class="form-group"><label>Purpose</label><input type="text" id="loanPurpose" placeholder="Business expansion"></div>
+                        <div class="form-group"><label>Duration</label><input type="text" id="loanDuration" placeholder="3 months"></div>
+                        <div class="form-group"><label>Status</label><select id="loanStatus"><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select></div>
+                    </div>
+                    <button class="btn-add" onclick="addLoan()"><i class="fas fa-plus-circle"></i> Add Loan</button>
+                    <div class="msg msg-success" id="loanSuccess"></div>
+                </div>
+            </div>
+
+            <!-- ADD CYCLE -->
+            <div class="tab-content" id="tab-addCycle">
+                <h2 class="page-title"><i class="fas fa-sync-alt" style="color:#ce93d8;"></i> Add Cycle Member</h2>
+                <div class="panel">
+                    <div class="form-row">
+                        <div class="form-group"><label>Member Phone *</label><input type="tel" id="cyclePhone" placeholder="Member's phone"></div>
+                        <div class="form-group"><label>Member Name</label><input type="text" id="cycleName" placeholder="Auto-fills if member exists"></div>
+                        <div class="form-group"><label>Cycle Name *</label><input type="text" id="cycleGroup" placeholder="Kawempe Savers"></div>
+                        <div class="form-group"><label>Contribution (UGX)</label><input type="number" id="cycleAmount" placeholder="5000"></div>
+                        <div class="form-group"><label>Status</label><select id="cycleStatus"><option value="active">Active</option><option value="pending">Pending</option></select></div>
+                    </div>
+                    <button class="btn-add" onclick="addCycle()"><i class="fas fa-plus-circle"></i> Add Cycle Member</button>
+                    <div class="msg msg-success" id="cycleSuccess"></div>
+                </div>
+            </div>
+
+            <!-- VIEW TABLES -->
+            <div class="tab-content" id="tab-investments"><h2 class="page-title"><i class="fas fa-list" style="color:#48cae4;"></i> All Investments</h2><div class="table-wrap" id="investmentsTable"></div></div>
+            <div class="tab-content" id="tab-savings"><h2 class="page-title"><i class="fas fa-list" style="color:#ffb800;"></i> All Savings</h2><div class="table-wrap" id="savingsTable"></div></div>
+            <div class="tab-content" id="tab-loans"><h2 class="page-title"><i class="fas fa-list" style="color:#ff5252;"></i> All Loans</h2><div class="table-wrap" id="loansTable"></div></div>
+            <div class="tab-content" id="tab-cycles"><h2 class="page-title"><i class="fas fa-list" style="color:#ce93d8;"></i> All Cycles</h2><div class="table-wrap" id="cyclesTable"></div></div>
+
+            <!-- SLOTS -->
+            <div class="tab-content" id="tab-slots">
+                <h2 class="page-title"><i class="fas fa-ticket-alt" style="color:#ffd700;"></i> Manage Slots</h2>
+                <div class="panel">
+                    <div id="slotsList"></div>
+                    <div class="form-row" style="margin-top:1rem;">
+                        <div class="form-group"><label>Plan</label><select id="slotPlan"><option value="">Select</option><option>Men's Hair Salon</option><option>Poultry Farm</option><option>Restaurant</option><option>Modern Stall</option><option>Classic Boutique</option><option>Grocery Store</option><option>Transport Business</option><option>Modern Construction</option></select></div>
+                        <div class="form-group"><label>Slots</label><input type="number" id="slotCount" placeholder="5"></div>
+                    </div>
+                    <button class="btn-add" onclick="updateSlots()"><i class="fas fa-save"></i> Update Slots</button>
+                </div>
+            </div>
+
+            <!-- CHANGE PASSWORD -->
+            <div class="tab-content" id="tab-changePassword">
+                <h2 class="page-title"><i class="fas fa-key" style="color:#ffb800;"></i> Change Admin Password</h2>
+                <div class="panel" style="max-width:480px;">
+                    <div class="form-group"><label>Current Password</label><input type="password" id="currentPass"></div>
+                    <div class="form-group"><label>New Password</label><input type="password" id="newPass"></div>
+                    <div class="form-group"><label>Confirm Password</label><input type="password" id="confirmPass"></div>
+                    <button class="btn-add" onclick="changeAdminPassword()"><i class="fas fa-key"></i> Update Password</button>
+                    <div class="msg msg-success" id="passSuccess"></div>
+                    <div class="msg msg-error" id="passError"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ===== CREATE FLOATING PARTICLES =====
+    (function(){
+        const c = document.getElementById('floatingParticles');
+        if(!c) return;
+        const colors = ['rgba(0,180,216,0.3)','rgba(255,215,0,0.25)','rgba(0,230,118,0.2)','rgba(255,82,82,0.2)','rgba(72,202,228,0.25)'];
+        for(let i=0;i<35;i++){
+            const d = document.createElement('div'); d.classList.add('fp');
+            d.style.width = (Math.random()*4+2)+'px';
+            d.style.height = d.style.width;
+            d.style.background = colors[Math.floor(Math.random()*colors.length)];
+            d.style.left = Math.random()*100+'%';
+            d.style.animationDuration = (Math.random()*12+8)+'s';
+            d.style.animationDelay = Math.random()*8+'s';
+            c.appendChild(d);
+        }
+    })();
+
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzhZWPqshd3kB5eC0IgK3yKy7LHZRhuYwIyRlEw-dUJaLdCxRVb4TKgT40-Asd8VaTK-g/exec';
+    let ADMIN_PASSWORD = localStorage.getItem('shimogy_admin_password') || 'shimogy123';
+    let allData = { members: [], investments: [], savings: [], loans: [], cycles: [], slots: {} };
+
+    function doLogin() {
+        const u = document.getElementById('adminUser').value.trim();
+        const p = document.getElementById('adminPass').value.trim();
+        if (u === 'admin' && p === ADMIN_PASSWORD) {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboardScreen').style.display = 'block';
+            document.getElementById('logoutBtn').style.display = 'inline-flex';
+            localStorage.setItem('shimogy_admin_logged', 'true');
+            loadAllData();
+        } else {
+            document.getElementById('loginError').textContent = '❌ Invalid credentials. Please try again.';
+            document.getElementById('loginError').style.display = 'block';
+        }
+    }
+    function doLogout() {
+        document.getElementById('loginScreen').style.display = 'block';
+        document.getElementById('dashboardScreen').style.display = 'none';
+        document.getElementById('logoutBtn').style.display = 'none';
+        localStorage.removeItem('shimogy_admin_logged');
+    }
+
+    async function loadAllData() {
+        try {
+            const res = await fetch(API_URL + '?action=getAllData');
+            const result = await res.json();
+            if (result.success) { allData = result; renderAll(); }
+        } catch (e) { console.error(e); }
+    }
+    function refreshAll() { loadAllData(); 
+        const btn = document.querySelector('#tab-overview .btn-info');
+        if(btn){ btn.innerHTML = '<i class="fas fa-check"></i> Refreshed!'; setTimeout(()=>{btn.innerHTML='<i class="fas fa-refresh"></i> Refresh Data';},2000); }
+    }
+
+    function renderAll() {
+        document.getElementById('overviewStats').innerHTML = `
+            <div class="stat-card"><div class="stat-icon">👥</div><div class="num">${allData.members.length}</div><div class="label">Members</div></div>
+            <div class="stat-card"><div class="stat-icon">📈</div><div class="num">${allData.investments.length}</div><div class="label">Investments</div></div>
+            <div class="stat-card"><div class="stat-icon">💰</div><div class="num">${allData.savings.length}</div><div class="label">Savings</div></div>
+            <div class="stat-card"><div class="stat-icon">💳</div><div class="num">${allData.loans.length}</div><div class="label">Loans</div></div>
+            <div class="stat-card"><div class="stat-icon">🔄</div><div class="num">${allData.cycles.length}</div><div class="label">Cycles</div></div>
+        `;
+        renderTable('membersTable', allData.members, ['Name','Phone','Email','Group','Balance','TotalInvested','Status']);
+        renderTable('investmentsTable', allData.investments, ['MemberName','MemberPhone','PlanName','Amount','ExpectedReturn','Duration','Status']);
+        renderTable('savingsTable', allData.savings, ['MemberName','MemberPhone','AccountType','Balance','OpenDate','Status']);
+        renderTable('loansTable', allData.loans, ['MemberName','MemberPhone','Amount','Purpose','Duration','RequestDate','Status']);
+        renderTable('cyclesTable', allData.cycles, ['MemberName','MemberPhone','CycleName','Contribution','JoinDate','Status']);
+        renderSlots();
+    }
+
+    function renderTable(id, data, cols) {
+        const c = document.getElementById(id); if (!c) return;
+        if (!data || data.length === 0) { c.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>No records found</p></div>'; return; }
+        let h = '<table><thead><tr>';
+        cols.forEach(col => h += '<th>' + col + '</th>');
+        h += '</tr></thead><tbody>';
+        data.forEach(row => {
+            h += '<tr>';
+            cols.forEach(col => {
+                let v = row[col] || '-';
+                if (['Amount','ExpectedReturn','Balance','TotalInvested','Contribution'].includes(col)) v = v ? 'UGX ' + parseInt(v).toLocaleString() : 'UGX 0';
+                if (col === 'Status') {
+                    let cls = 'badge-info';
+                    if (v === 'active' || v === 'approved' || v === 'completed') cls = 'badge-success';
+                    else if (v === 'pending') cls = 'badge-warning';
+                    else if (v === 'rejected' || v === 'inactive') cls = 'badge-danger';
+                    v = '<span class="badge ' + cls + '">' + v + '</span>';
+                }
+                h += '<td>' + v + '</td>';
+            });
+            h += '</tr>';
+        });
+        h += '</tbody></table>';
+        c.innerHTML = h;
+    }
+
+    function renderSlots() {
+        const plans = ["Men's Hair Salon","Poultry Farm","Restaurant","Modern Stall","Classic Boutique","Grocery Store","Transport Business","Modern Construction"];
+        document.getElementById('slotsList').innerHTML = plans.map(p => '<div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="color:rgba(255,255,255,0.7);">' + p + '</span><span style="color:#ffd700;font-weight:700;">' + (allData.slots[p] || 'N/A') + ' slots</span></div>').join('');
+    }
+
+    async function createMember() {
+        const n = document.getElementById('newName').value.trim();
+        const p = document.getElementById('newPhone').value.trim();
+        const pw = document.getElementById('newPassword').value.trim();
+        if (!n || !p || !pw) { showMsg('createError','⚠️ All required fields must be filled.'); return; }
+        const params = new URLSearchParams({ action:'addMember', id:Date.now(), name:n, phone:p, password:pw, email:document.getElementById('newEmail').value.trim(), group:document.getElementById('newGroup').value.trim(), joinDate:new Date().toISOString().split('T')[0], status:'active', totalInvested:'0', balance:document.getElementById('newBalance').value||'0', dailyEarnings:'0' });
+        await fetch(API_URL+'?'+params.toString());
+        showMsg('createSuccess','✅ Member created! 📞 '+p+' | 🔑 '+pw);
+        clearForm(['newName','newPhone','newPassword','newEmail','newGroup','newBalance']);
+        loadAllData();
+    }
+
+    async function updateMember() {
+        const phone = document.getElementById('updPhone').value.trim();
+        if (!phone) { alert('⚠️ Enter phone number to find the member.'); return; }
+        const params = new URLSearchParams({ action:'updateMember', phone:phone, balance:document.getElementById('updBalance').value, totalInvested:document.getElementById('updInvested').value, status:document.getElementById('updStatus').value, password:document.getElementById('updPassword').value });
+        await fetch(API_URL+'?'+params.toString());
+        showMsg('updSuccess','✅ Member updated!');
+        loadAllData();
+    }
+
+    async function addInvestment() {
+        const phone = document.getElementById('invPhone').value.trim();
+        const plan = document.getElementById('invPlan').value;
+        const amount = document.getElementById('invAmount').value;
+        if (!phone || !plan || !amount) { showMsg('invError','⚠️ Phone, Plan, and Amount are required.'); return; }
+        const member = allData.members.find(m => m.Phone === phone);
+        const memberName = member ? member.Name : document.getElementById('invName').value.trim();
+        const data = { ID:Date.now(), MemberPhone:phone, MemberName:memberName||'Unknown', PlanName:plan, Amount:amount, ExpectedReturn:document.getElementById('invReturn').value||amount, StartDate:new Date().toISOString().split('T')[0], Duration:document.getElementById('invDuration').value||'30 Days', Status:document.getElementById('invStatus').value };
+        await fetch(API_URL+'?action=addInvestment&data='+encodeURIComponent(JSON.stringify(data)));
+        showMsg('invSuccess','✅ Investment added for '+memberName+'!');
+        clearForm(['invPhone','invName','invAmount','invReturn','invDuration']);
+        loadAllData();
+    }
+
+    async function addSavings() {
+        const phone = document.getElementById('savPhone').value.trim();
+        const type = document.getElementById('savType').value;
+        if (!phone || !type) { alert('⚠️ Phone and Account Type required.'); return; }
+        const member = allData.members.find(m => m.Phone === phone);
+        const data = { ID:Date.now(), MemberPhone:phone, MemberName:member?member.Name:document.getElementById('savName').value.trim(), AccountType:type, Balance:document.getElementById('savBalance').value||'0', OpenDate:new Date().toISOString().split('T')[0], Status:document.getElementById('savStatus').value };
+        await fetch(API_URL+'?action=addSavings&data='+encodeURIComponent(JSON.stringify(data)));
+        showMsg('savSuccess','✅ Savings account added!');
+        clearForm(['savPhone','savName','savBalance']);
+        loadAllData();
+    }
+
+    async function addLoan() {
+        const phone = document.getElementById('loanPhone').value.trim();
+        const amount = document.getElementById('loanAmount').value;
+        if (!phone || !amount) { alert('⚠️ Phone and Amount required.'); return; }
+        const member = allData.members.find(m => m.Phone === phone);
+        const data = { ID:Date.now(), MemberPhone:phone, MemberName:member?member.Name:document.getElementById('loanName').value.trim(), Amount:amount, Purpose:document.getElementById('loanPurpose').value, RequestDate:new Date().toISOString().split('T')[0], Duration:document.getElementById('loanDuration').value||'3 months', InterestRate:'10%', Status:document.getElementById('loanStatus').value };
+        await fetch(API_URL+'?action=addLoan&data='+encodeURIComponent(JSON.stringify(data)));
+        showMsg('loanSuccess','✅ Loan added!');
+        clearForm(['loanPhone','loanName','loanAmount','loanPurpose','loanDuration']);
+        loadAllData();
+    }
+
+    async function addCycle() {
+        const phone = document.getElementById('cyclePhone').value.trim();
+        const group = document.getElementById('cycleGroup').value.trim();
+        if (!phone || !group) { alert('⚠️ Phone and Cycle Name required.'); return; }
+        const member = allData.members.find(m => m.Phone === phone);
+        const data = { ID:Date.now(), MemberPhone:phone, MemberName:member?member.Name:document.getElementById('cycleName').value.trim(), CycleName:group, Contribution:document.getElementById('cycleAmount').value||'0', JoinDate:new Date().toISOString().split('T')[0], Status:document.getElementById('cycleStatus').value };
+        await fetch(API_URL+'?action=addCycle&data='+encodeURIComponent(JSON.stringify(data)));
+        showMsg('cycleSuccess','✅ Cycle member added!');
+        clearForm(['cyclePhone','cycleName','cycleGroup','cycleAmount']);
+        loadAllData();
+    }
+
+    function updateSlots() {
+        const plan = document.getElementById('slotPlan').value;
+        const count = document.getElementById('slotCount').value;
+        if (!plan || !count) { alert('⚠️ Select plan and enter slot count.'); return; }
+        allData.slots[plan] = count;
+        renderSlots();
+        document.getElementById('slotCount').value = '';
+        alert('✅ Slots updated for ' + plan + ': ' + count + ' slots');
+    }
+
+    function changeAdminPassword() {
+        const cur = document.getElementById('currentPass').value.trim();
+        const nw = document.getElementById('newPass').value.trim();
+        const cf = document.getElementById('confirmPass').value.trim();
+        if (!cur||!nw||!cf) { showMsg('passError','⚠️ All fields required.'); return; }
+        if (cur !== ADMIN_PASSWORD) { showMsg('passError','❌ Current password incorrect.'); return; }
+        if (nw !== cf) { showMsg('passError','❌ Passwords do not match.'); return; }
+        if (nw.length < 4) { showMsg('passError','❌ Password must be at least 4 characters.'); return; }
+        ADMIN_PASSWORD = nw;
+        localStorage.setItem('shimogy_admin_password', nw);
+        showMsg('passSuccess','✅ Password changed successfully!');
+        document.getElementById('currentPass').value='';
+        document.getElementById('newPass').value='';
+        document.getElementById('confirmPass').value='';
+    }
+
+    function showMsg(id, text) { const el = document.getElementById(id); if (el) { el.textContent = text; el.style.display = 'block'; setTimeout(() => el.style.display = 'none', 4500); } }
+    function clearForm(ids) { ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; }); }
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+        const tabEl = document.getElementById('tab-' + tab);
+        if (tabEl) tabEl.classList.add('active');
+        document.querySelectorAll('.sidebar a').forEach(a => { 
+            const txt = a.textContent.toLowerCase();
+            if (txt.includes(tab.toLowerCase()) || (tab==='createMember'&&txt.includes('create')) || (tab==='updateMember'&&txt.includes('update member'))) a.classList.add('active'); 
+        });
+    }
+
+    if (localStorage.getItem('shimogy_admin_logged') === 'true') {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('dashboardScreen').style.display = 'block';
+        document.getElementById('logoutBtn').style.display = 'inline-flex';
+        loadAllData();
+    }
+</script>
+
+</body>
+</html>

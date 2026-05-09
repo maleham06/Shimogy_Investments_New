@@ -1,0 +1,1358 @@
+<!-- investments.html - Enhanced Modern Investments Page with WhatsApp Integration -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIMOGY | Investments - Build Your Wealth Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700;6..96,800;6..96,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url('images/partnership.jpg') !important;
+            background-size: cover !important;
+            background-attachment: fixed !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-color: #0a4a6e !important;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        body::before, 
+        body::after {
+            display: none !important;
+            content: none !important;
+        }
+
+        /* Water Ripple Animation */
+        .water-ripple {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 180, 216, 0.05);
+            animation: rippleExpand 5s infinite ease-out;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .water-ripple:nth-child(2) { animation-delay: 1s; width: 350px; height: 350px; }
+        .water-ripple:nth-child(3) { animation-delay: 2s; width: 300px; height: 300px; }
+        .water-ripple:nth-child(4) { animation-delay: 3s; width: 250px; height: 250px; }
+        .water-ripple:nth-child(5) { animation-delay: 4s; width: 200px; height: 200px; }
+
+        @keyframes rippleExpand {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.6; }
+            100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+        }
+
+        /* Navbar Enhancement */
+        .navbar {
+            background: rgba(6, 13, 26, 0.94);
+            backdrop-filter: blur(20px);
+            padding: 0.8rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 180, 216, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logo-area img {
+            height: 55px;
+            width: auto;
+            border-radius: 14px;
+            object-fit: cover;
+            box-shadow: 0 0 20px rgba(0, 180, 216, 0.3);
+            border: 2px solid rgba(0, 180, 216, 0.4);
+        }
+
+        .logo-placeholder {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #00b4d8, #0077b6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+            box-shadow: 0 0 15px rgba(0, 180, 216, 0.3);
+        }
+
+        .logo-text h1 {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff, #48cae4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        .logo-text p {
+            font-size: 0.6rem;
+            letter-spacing: 3px;
+            color: #48cae4;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.85);
+            transition: 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(90deg, #00b4d8, #48cae4);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #48cae4;
+        }
+
+        .account-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #00b4d8, #0077b6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1.2rem;
+            color: white;
+            box-shadow: 0 0 15px rgba(0, 180, 216, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .account-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 180, 216, 0.6);
+        }
+
+        /* Enhanced Page Header */
+        .page-header {
+            position: relative;
+            padding: 3rem 2rem;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(6, 13, 26, 0.8) 0%, rgba(6, 20, 40, 0.6) 100%);
+            z-index: -1;
+        }
+
+        .page-header .header-tag {
+            display: inline-block;
+            color: #48cae4;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #48cae4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Stats Summary Bar */
+        .stats-summary {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            padding: 1.5rem 2rem;
+            background: rgba(10, 74, 110, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 180, 216, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-summary .stat-item {
+            text-align: center;
+            padding: 0 1.5rem;
+        }
+
+        .stats-summary .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffd700;
+        }
+
+        .stats-summary .stat-label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            padding: 1.5rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-tab {
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 180, 216, 0.3);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .category-tab:hover,
+        .category-tab.active {
+            background: rgba(0, 180, 216, 0.15);
+            border-color: #00b4d8;
+            color: #48cae4;
+        }
+
+        /* Investment Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .invest-card {
+            background: rgba(10, 40, 80, 0.35);
+            backdrop-filter: blur(15px);
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 180, 216, 0.2);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            position: relative;
+        }
+
+        .invest-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 180, 216, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 180, 216, 0.1);
+        }
+
+        .card-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.5s;
+            position: relative;
+        }
+
+        .invest-card:hover .card-img {
+            transform: scale(1.05);
+        }
+
+        .card-img-overlay {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .card-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-new { background: rgba(0, 230, 118, 0.9); color: #000; }
+        .badge-hot { background: rgba(255, 82, 82, 0.9); color: white; }
+        .badge-trending { background: rgba(255, 152, 0, 0.9); color: #000; }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-body h3 {
+            color: #48cae4;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ffd700;
+            margin: 0.5rem 0;
+        }
+
+        .card-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+
+        .card-detail-item {
+            text-align: center;
+        }
+
+        .card-detail-item .detail-label {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-detail-item .detail-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .risk-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .risk-dots {
+            display: flex;
+            gap: 3px;
+        }
+
+        .risk-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .risk-dot.active { background: #ffd700; }
+        .risk-dot.active.high { background: #ff5252; }
+
+        .slot-available {
+            background: rgba(0, 230, 118, 0.12);
+            color: #00e676;
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(0, 230, 118, 0.3);
+        }
+
+        .slot-booked {
+            background: rgba(139, 90, 43, 0.2);
+            color: #d4a574;
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(210, 180, 140, 0.3);
+        }
+
+        .slot-ready {
+            background: rgba(0, 230, 118, 0.2);
+            color: #00e676;
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(0, 230, 118, 0.5);
+        }
+
+        /* Buttons */
+        .btn-gold {
+            background: linear-gradient(135deg, #00b4d8, #0077b6);
+            border: none;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
+            justify-content: center;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 180, 216, 0.5);
+            background: linear-gradient(135deg, #48cae4, #00b4d8);
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            border: none;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            justify-content: center;
+            animation: pulse-whatsapp 2s infinite;
+        }
+
+        @keyframes pulse-whatsapp {
+            0%, 100% { box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+            50% { box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6); }
+        }
+
+        .btn-whatsapp:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+            background: linear-gradient(135deg, #2ecc71, #25D366);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(0, 180, 216, 0.4);
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: rgba(0, 180, 216, 0.1);
+            border-color: #48cae4;
+            color: white;
+        }
+
+        /* Modal Enhancement */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(6, 13, 26, 0.95);
+            backdrop-filter: blur(15px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0a1a35, #0d2247);
+            border-radius: 24px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 520px;
+            border: 1px solid rgba(0, 180, 216, 0.4);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h3 {
+            color: #48cae4;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        /* Plan Summary Box */
+        .plan-summary-box {
+            background: rgba(0, 180, 216, 0.08);
+            border: 1px solid rgba(0, 180, 216, 0.25);
+            border-radius: 16px;
+            padding: 1rem;
+            margin: 0.8rem 0;
+        }
+
+        .plan-summary-box .plan-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #48cae4;
+            margin-bottom: 0.6rem;
+        }
+
+        .plan-summary-box .plan-detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.3rem 0;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .plan-summary-box .plan-detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .plan-summary-box .detail-label-text {
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .plan-summary-box .detail-value-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 180, 216, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .modal-content input:focus {
+            border-color: #00b4d8;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 4px rgba(0, 180, 216, 0.1);
+        }
+
+        .modal-content input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .whatsapp-note {
+            background: rgba(37, 211, 102, 0.1);
+            border: 1px solid rgba(37, 211, 102, 0.3);
+            border-radius: 12px;
+            padding: 0.7rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0.8rem 0;
+        }
+
+        .whatsapp-note i {
+            color: #25D366;
+            font-size: 1.2rem;
+        }
+
+        .whatsapp-instruction {
+            text-align: center;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 0.5rem;
+        }
+
+        /* Info Sections */
+        .info-section {
+            padding: 3rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-section .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .info-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff, #48cae4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        .why-invest-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .why-invest-card {
+            background: rgba(10, 40, 80, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 180, 216, 0.15);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .why-invest-card:hover {
+            border-color: rgba(0, 180, 216, 0.4);
+            background: rgba(0, 180, 216, 0.05);
+            transform: translateY(-3px);
+        }
+
+        .why-invest-card .why-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(0, 180, 216, 0.2), rgba(0, 119, 182, 0.2));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.8rem;
+        }
+
+        .why-invest-card h4 {
+            color: #48cae4;
+            margin-bottom: 0.5rem;
+        }
+
+        .why-invest-card p {
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(6, 13, 26, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(0, 180, 216, 0.2);
+            position: relative;
+            z-index: 1;
+            margin-top: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .icons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .icons a {
+            color: rgba(255, 255, 255, 0.6);
+            transition: 0.3s;
+        }
+
+        .icons a:hover {
+            color: #48cae4;
+            transform: scale(1.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            .stats-summary {
+                gap: 1rem;
+            }
+            .info-section {
+                padding: 2rem 1rem;
+            }
+            .modal-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Water Ripple Background -->
+<div class="water-ripple"></div>
+<div class="water-ripple"></div>
+<div class="water-ripple"></div>
+<div class="water-ripple"></div>
+<div class="water-ripple"></div>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="nav-container">
+        <div class="logo-area" onclick="location.href='index.html'">
+            <img src="images/logobg.png" alt="SHIMOGY Logo">
+            <div class="logo-placeholder"><i class="fas fa-chart-line"></i></div>
+            <div class="logo-text"><h1>SHIMOGY</h1><p>INVESTMENT GROUP</p></div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="investments.html" class="active">Investments</a>
+            <a href="cycles.html">Cycles</a>
+            <a href="savings.html">Savings</a>
+            <a href="loans.html">Loans</a>
+            <a href="updates.html">Updates</a>
+            <a href="about.html">About Us</a>
+            <a href="dashboard.html">My Dashboard</a>
+            <div class="account-icon" onclick="showAccessModal()"><i class="fas fa-user-shield"></i></div>
+        </div>
+    </div>
+</div>
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="header-tag"><i class="fas fa-diamond"></i> Investment Opportunities</div>
+    <h1>Build Your Wealth Portfolio</h1>
+    <p>Choose your investment plan — fill in your details and send your request directly to our admin via WhatsApp</p>
+</div>
+
+<!-- Stats Summary Bar -->
+<div class="stats-summary">
+    <div class="stat-item">
+        <div class="stat-value">8</div>
+        <div class="stat-label">Investment Plans</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value">UGX 50K</div>
+        <div class="stat-label">Min Investment</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value">UGX 2.5M</div>
+        <div class="stat-label">Max Investment</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value">25-50%</div>
+        <div class="stat-label">ROI Range</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value">30-120</div>
+        <div class="stat-label">Days Duration</div>
+    </div>
+</div>
+
+<!-- Category Filter Tabs -->
+<div class="category-tabs">
+    <button class="category-tab active" onclick="filterInvestments('all')">All Plans</button>
+    <button class="category-tab" onclick="filterInvestments('low')">🟢 Low Risk</button>
+    <button class="category-tab" onclick="filterInvestments('medium')">🟡 Medium Risk</button>
+    <button class="category-tab" onclick="filterInvestments('high')">🔴 High Risk</button>
+    <button class="category-tab" onclick="filterInvestments('short')">⏱️ Short Term</button>
+    <button class="category-tab" onclick="filterInvestments('long')">📅 Long Term</button>
+</div>
+
+<!-- Investment Cards Grid -->
+<div id="investmentsGrid" class="cards-grid"></div>
+
+<!-- Why Invest Section -->
+<div class="info-section">
+    <div class="section-inner">
+        <h2>Why Invest With SHIMOGY?</h2>
+        <p style="text-align:center; color: rgba(255,255,255,0.65); margin-bottom: 2rem;">We make investing simple, transparent, and profitable for every Ugandan</p>
+        <div class="why-invest-grid">
+            <div class="why-invest-card">
+                <div class="why-icon">🔒</div>
+                <h4>Secure Investments</h4>
+                <p>All investments are backed by real businesses operating in Kampala. Your capital is protected and monitored.</p>
+            </div>
+            <div class="why-invest-card">
+                <div class="why-icon">📈</div>
+                <h4>Guaranteed Returns</h4>
+                <p>Fixed return rates agreed upfront. No hidden fees. You know exactly what you'll earn before you invest.</p>
+            </div>
+            <div class="why-invest-card">
+                <div class="why-icon">⚡</div>
+                <h4>Fast WhatsApp Processing</h4>
+                <p>Submit your request via WhatsApp and get a response from our admin within minutes.</p>
+            </div>
+            <div class="why-invest-card">
+                <div class="why-icon">📱</div>
+                <h4>Real-Time Tracking</h4>
+                <p>Log into your personal dashboard to monitor your investment progress 24/7 from any device.</p>
+            </div>
+            <div class="why-invest-card">
+                <div class="why-icon">🤝</div>
+                <h4>Community Trusted</h4>
+                <p>Over 1,200 Ugandans have invested with us. 98% client satisfaction rate across all plans.</p>
+            </div>
+            <div class="why-invest-card">
+                <div class="why-icon">💳</div>
+                <h4>Flexible Payments</h4>
+                <p>Pay via MTN Mobile Money, Airtel Money, or bank transfer. Returns sent directly to your mobile wallet.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- INVESTMENT MODAL WITH PLAN SUMMARY AND WHATSAPP -->
+<div id="investModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3 id="modalTitle"><i class="fas fa-hand-holding-usd"></i> Investment Request</h3>
+        
+        <!-- Plan Summary Box -->
+        <div class="plan-summary-box" id="planSummaryBox">
+            <div class="plan-name" id="planSummaryName">📋 Select a plan</div>
+            <div class="plan-detail-row">
+                <span class="detail-label-text">💰 Investment Amount</span>
+                <span class="detail-value-text" id="planSummaryAmount">-</span>
+            </div>
+            <div class="plan-detail-row">
+                <span class="detail-label-text">📈 Expected Returns</span>
+                <span class="detail-value-text" id="planSummaryReturn">-</span>
+            </div>
+            <div class="plan-detail-row">
+                <span class="detail-label-text">📊 ROI Percentage</span>
+                <span class="detail-value-text" style="color:#00e676;" id="planSummaryROI">-</span>
+            </div>
+            <div class="plan-detail-row">
+                <span class="detail-label-text">⏱️ Duration</span>
+                <span class="detail-value-text" id="planSummaryDuration">-</span>
+            </div>
+            <div class="plan-detail-row">
+                <span class="detail-label-text">⚠️ Risk Level</span>
+                <span class="detail-value-text" id="planSummaryRisk">-</span>
+            </div>
+            <div class="plan-detail-row">
+                <span class="detail-label-text">🎯 Available Slots</span>
+                <span class="detail-value-text" id="planSummarySlots">-</span>
+            </div>
+        </div>
+        
+        <p style="text-align: center; color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-bottom: 0.5rem;">
+            Fill in your details — WhatsApp will open with your message ready to send
+        </p>
+        
+        <input type="text" id="investName" placeholder="Full Name (e.g., John Mukasa)">
+        <input type="tel" id="investPhone" placeholder="Phone Number (e.g., 0752259416)">
+        
+        <!-- WhatsApp Note -->
+        <div class="whatsapp-note">
+            <i class="fab fa-whatsapp"></i> 
+            WhatsApp will open with admin <strong>+256 752259416</strong><br>
+            Message is pre-typed — just tap <strong>"Send"</strong>
+        </div>
+        
+        <div style="display: flex; gap: 1rem; margin-top: 0.8rem; flex-wrap: wrap;">
+            <button id="investCancel" class="btn-outline" style="flex: 1;">Cancel</button>
+            <button id="investSubmit" class="btn-whatsapp" style="flex: 1;">
+                <i class="fab fa-whatsapp"></i> Open WhatsApp
+            </button>
+        </div>
+        
+        <div class="whatsapp-instruction">
+            ⬆️ Tap the green button above to open WhatsApp with your pre-filled message
+        </div>
+    </div>
+</div>
+
+<!-- CYCLE MODAL -->
+<div id="cycleModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3 id="cycleModalTitle"><i class="fas fa-users"></i> Cycle Request</h3>
+        <input type="text" id="cycleName" placeholder="Full Name">
+        <input type="tel" id="cyclePhone" placeholder="Phone Number">
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <button id="cycleCancel" class="btn-outline" style="flex: 1;">Cancel</button>
+            <button id="cycleSubmit" class="btn-gold" style="flex: 1;">Submit Request</button>
+        </div>
+    </div>
+</div>
+
+<!-- SAVINGS MODAL -->
+<div id="savingsModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3 id="savingsModalTitle"><i class="fas fa-piggy-bank"></i> Account Opening</h3>
+        <input type="text" id="savingsName" placeholder="Full Name">
+        <input type="tel" id="savingsPhone" placeholder="Phone Number">
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <button id="savingsCancel" class="btn-outline" style="flex: 1;">Cancel</button>
+            <button id="savingsSubmit" class="btn-gold" style="flex: 1;">Submit Request</button>
+        </div>
+    </div>
+</div>
+
+<!-- LOAN MODAL -->
+<div id="loanModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3><i class="fas fa-hand-holding-usd"></i> Loan Request</h3>
+        <input type="text" id="loanName" placeholder="Full Name">
+        <input type="tel" id="loanPhone" placeholder="Phone Number">
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <button id="loanCancel" class="btn-outline" style="flex: 1;">Cancel</button>
+            <button id="loanSubmit" class="btn-gold" style="flex: 1;">Submit Request</button>
+        </div>
+    </div>
+</div>
+
+<!-- ACCESS MODAL -->
+<div id="accessModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3><i class="fas fa-key"></i> Access Dashboard</h3>
+        <p style="text-align:center; color: rgba(255,255,255,0.6); margin-bottom: 1.5rem;">Choose your login portal</p>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <button class="btn-gold" style="flex: 1;" onclick="location.href='admin.html'">
+                <i class="fas fa-user-cog"></i> Admin Login
+            </button>
+            <button class="btn-gold" style="flex: 1; background: linear-gradient(95deg, #1e7e34, #27ae60);" onclick="location.href='dashboard.html'">
+                <i class="fas fa-user"></i> Client Login
+            </button>
+        </div>
+        <p style="text-align:center; color: rgba(255,255,255,0.4); font-size: 0.75rem; margin-top: 1rem;">Admin provides account credentials to clients</p>
+        <button class="btn-outline" style="width: 100%; margin-top: 1rem;" onclick="closeAccessModal()">Close</button>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-grid">
+        <div>
+            <h3>📍 Location</h3>
+            <p>Kampala, Kawempe, Uganda</p>
+            <p>East Africa</p>
+        </div>
+        <div>
+            <h3>📱 Follow Us</h3>
+            <div class="icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-tiktok"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="https://wa.me/256752259416"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p>@shimogy group</p>
+        </div>
+        <div>
+            <h3>📞 Contact Us</h3>
+            <p>0752259416</p>
+            <p>0746788042</p>
+            <p>info@shimogy.com</p>
+        </div>
+    </div>
+    <p style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">© 2026 Shimogy Investment Group - Partners for Life</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+    // Enhanced investment data
+    const enhancedInvestments = [
+        { id: 1, name: "MEN'S HAIR SALON", price: 200000, return: 250000, duration: "30 DAYS", risk: "Low", riskLevel: 1, cta: "Upgrade your future. Invest in style.", img: "images/saloon.jpg", slotsLeft: 5, status: "available", badge: "new", category: "low,short" },
+        { id: 2, name: "POULTRY FARM", price: 500000, return: 700000, duration: "60 DAYS", risk: "Low", riskLevel: 1, cta: "Grow steady income with smart farming.", img: "images/poultry.jpg", slotsLeft: 3, status: "available", badge: "hot", category: "low,short" },
+        { id: 3, name: "RESTAURANT", price: 500000, return: 700000, duration: "45 DAYS", risk: "Medium", riskLevel: 2, cta: "Turn daily demand into daily profit.", img: "images/restaurant.jpg", slotsLeft: 4, status: "available", badge: "trending", category: "medium,short" },
+        { id: 4, name: "MODERN STALL", price: 50000, return: 62000, duration: "30 DAYS", risk: "Low", riskLevel: 1, cta: "Start small, grow big.", img: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&h=400&fit=crop", slotsLeft: 8, status: "available", badge: "new", category: "low,short" },
+        { id: 5, name: "CLASSIC BOUTIQUE", price: 100000, return: 120000, duration: "30 DAYS", risk: "Low", riskLevel: 1, cta: "Fashion meets profit.", img: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop", slotsLeft: 6, status: "available", badge: null, category: "low,short" },
+        { id: 6, name: "GROCERY STORE", price: 800000, return: 1200000, duration: "60 DAYS", risk: "Medium", riskLevel: 2, cta: "Essential business, stable returns.", img: "https://images.unsplash.com/photo-1515169067868-5387ec356754?w=600&h=400&fit=crop", slotsLeft: 2, status: "available", badge: "hot", category: "medium,short" },
+        { id: 7, name: "TRANSPORT BUSINESS", price: 1000000, return: 1500000, duration: "90 DAYS", risk: "High", riskLevel: 3, cta: "Move people, move profits.", img: "images/transport.jpg", slotsLeft: 1, status: "available", badge: "trending", category: "high,long" },
+        { id: 8, name: "MODERN CONSTRUCTION", price: 2500000, return: 3500000, duration: "120 DAYS", risk: "Low", riskLevel: 1, cta: "Build wealth with construction.", img: "images/construction.jpg", slotsLeft: 2, status: "available", badge: null, category: "low,long" }
+    ];
+
+    let currentFilter = 'all';
+    let selectedInvestment = null;
+
+    // ADMIN WHATSAPP NUMBER
+    const ADMIN_WHATSAPP = "256752259416";
+
+    // Render investments
+    function renderInvestments(filter = 'all') {
+        const grid = document.getElementById('investmentsGrid');
+        if (!grid) return;
+        
+        let filteredInvestments = enhancedInvestments;
+        if (filter === 'low') filteredInvestments = enhancedInvestments.filter(i => i.risk === 'Low');
+        if (filter === 'medium') filteredInvestments = enhancedInvestments.filter(i => i.risk === 'Medium');
+        if (filter === 'high') filteredInvestments = enhancedInvestments.filter(i => i.risk === 'High');
+        if (filter === 'short') filteredInvestments = enhancedInvestments.filter(i => parseInt(i.duration) <= 45);
+        if (filter === 'long') filteredInvestments = enhancedInvestments.filter(i => parseInt(i.duration) > 45);
+        
+        grid.innerHTML = filteredInvestments.map(inv => {
+            let slotClass = '', slotText = '', buttonHtml = '';
+            if (inv.status === 'booked') {
+                slotClass = 'slot-booked';
+                slotText = '🔒 Slot booked';
+                buttonHtml = '<button class="btn-outline" disabled style="opacity:0.5; width:100%; margin-top:12px;">Not Available</button>';
+            } else if (inv.status === 'ready') {
+                slotClass = 'slot-ready';
+                slotText = '✅ Slot ready';
+                buttonHtml = '<button class="btn-outline" disabled style="opacity:0.5; width:100%; margin-top:12px;">Returns Ready</button>';
+            } else {
+                slotClass = 'slot-available';
+                slotText = `${inv.slotsLeft} slots left`;
+                buttonHtml = `<button class="btn-gold" style="margin-top:12px; width:100%;" onclick="openInvestModal(${inv.id})"><i class="fas fa-rocket"></i> Invest Now</button>`;
+            }
+            
+            const riskDots = [1, 2, 3].map(d => {
+                if (inv.riskLevel === 1 && d === 1) return '<span class="risk-dot active"></span>';
+                if (inv.riskLevel === 2 && d <= 2) return '<span class="risk-dot active"></span>';
+                if (inv.riskLevel === 3 && d <= 3) return '<span class="risk-dot active high"></span>';
+                return '<span class="risk-dot"></span>';
+            }).join('');
+            
+            let badgeHtml = '';
+            if (inv.badge === 'new') badgeHtml = '<span class="card-badge badge-new">NEW</span>';
+            if (inv.badge === 'hot') badgeHtml = '<span class="card-badge badge-hot">HOT 🔥</span>';
+            if (inv.badge === 'trending') badgeHtml = '<span class="card-badge badge-trending">TRENDING</span>';
+            
+            const roiPercent = ((inv.return - inv.price) / inv.price * 100).toFixed(0);
+            
+            return `
+                <div class="invest-card" data-category="${inv.category}">
+                    <div class="card-img" style="background-image: url('${inv.img}');">
+                        <div class="card-img-overlay">${badgeHtml}</div>
+                    </div>
+                    <div class="card-body">
+                        <h3>${inv.name}</h3>
+                        <div class="price">UGX ${inv.price.toLocaleString()}</div>
+                        <div class="risk-indicator">
+                            <span style="font-size:0.8rem; color:rgba(255,255,255,0.5);">Risk:</span>
+                            <div class="risk-dots">${riskDots}</div>
+                            <span style="font-size:0.8rem; color:rgba(255,255,255,0.7);">${inv.risk}</span>
+                        </div>
+                        <div class="card-details">
+                            <div class="card-detail-item">
+                                <div class="detail-label">📈 Returns</div>
+                                <div class="detail-value">UGX ${inv.return.toLocaleString()}</div>
+                            </div>
+                            <div class="card-detail-item">
+                                <div class="detail-label">📊 ROI</div>
+                                <div class="detail-value" style="color:#00e676;">+${roiPercent}%</div>
+                            </div>
+                            <div class="card-detail-item">
+                                <div class="detail-label">⏱️ Duration</div>
+                                <div class="detail-value">${inv.duration}</div>
+                            </div>
+                            <div class="card-detail-item">
+                                <div class="detail-label">🎯 Slots</div>
+                                <div class="detail-value">${inv.slotsLeft} left</div>
+                            </div>
+                        </div>
+                        <p style="color: rgba(255,255,255,0.55); font-size: 0.85rem; margin-bottom: 0.5rem;">${inv.cta}</p>
+                        <span class="${slotClass}">${slotText}</span>
+                        ${buttonHtml}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // Filter function
+    function filterInvestments(filter) {
+        currentFilter = filter;
+        document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+        event.target.classList.add('active');
+        renderInvestments(filter);
+    }
+
+    // Open Investment Modal with Plan Summary
+    function openInvestModal(id) {
+        const inv = enhancedInvestments.find(i => i.id === id);
+        if (inv && inv.slotsLeft > 0 && inv.status !== 'booked') {
+            selectedInvestment = inv;
+            
+            // Update modal title
+            document.getElementById('modalTitle').innerHTML = `<i class="fas fa-hand-holding-usd"></i> Investment Request`;
+            
+            // Update plan summary
+            const roiPercent = ((inv.return - inv.price) / inv.price * 100).toFixed(0);
+            document.getElementById('planSummaryName').textContent = '📋 ' + inv.name;
+            document.getElementById('planSummaryAmount').textContent = 'UGX ' + inv.price.toLocaleString();
+            document.getElementById('planSummaryReturn').textContent = 'UGX ' + inv.return.toLocaleString();
+            document.getElementById('planSummaryROI').textContent = '+' + roiPercent + '%';
+            document.getElementById('planSummaryDuration').textContent = inv.duration;
+            document.getElementById('planSummaryRisk').textContent = inv.risk;
+            document.getElementById('planSummarySlots').textContent = inv.slotsLeft + ' slots available';
+            
+            // Clear inputs
+            document.getElementById('investName').value = '';
+            document.getElementById('investPhone').value = '';
+            
+            // Show modal
+            document.getElementById('investModal').classList.add('active');
+        }
+    }
+
+    // Submit Investment - Opens WhatsApp with pre-typed message
+    function submitInvestmentViaWhatsApp() {
+        const name = document.getElementById('investName').value.trim();
+        const phone = document.getElementById('investPhone').value.trim();
+        
+        if (!name || !phone) {
+            alert("⚠️ Please fill in both your full name and phone number to proceed.");
+            return;
+        }
+        
+        if (!selectedInvestment) {
+            alert("⚠️ No investment plan selected. Please choose a plan first.");
+            return;
+        }
+        
+        const inv = selectedInvestment;
+        const roiPercent = ((inv.return - inv.price) / inv.price * 100).toFixed(0);
+        
+        // Build the WhatsApp message
+        const message = `🟢 *NEW INVESTMENT REQUEST* 🟢\n\n` +
+            `👤 *Client Name:* ${name}\n` +
+            `📞 *Phone Number:* ${phone}\n\n` +
+            `━━━━━━━━━━━━━━━━━━━━\n` +
+            `📋 *SELECTED PLAN*\n` +
+            `━━━━━━━━━━━━━━━━━━━━\n\n` +
+            `💼 *Plan:* ${inv.name}\n` +
+            `💰 *Investment:* UGX ${inv.price.toLocaleString()}\n` +
+            `📈 *Returns:* UGX ${inv.return.toLocaleString()}\n` +
+            `📊 *ROI:* +${roiPercent}%\n` +
+            `⏱️ *Duration:* ${inv.duration}\n` +
+            `⚠️ *Risk Level:* ${inv.risk}\n` +
+            `🎯 *Slots Left:* ${inv.slotsLeft}\n\n` +
+            `━━━━━━━━━━━━━━━━━━━━\n` +
+            `📝 *Description:* ${inv.cta}\n` +
+            `━━━━━━━━━━━━━━━━━━━━\n\n` +
+            `✅ *Status:* Awaiting Payment Confirmation\n` +
+            `🕐 *Sent:* ${new Date().toLocaleString()}\n\n` +
+            `_Please confirm payment details._`;
+        
+        // Encode the message for WhatsApp URL
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappURL = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodedMessage}`;
+        
+        // Save to localStorage for admin dashboard
+        let adminData = JSON.parse(localStorage.getItem('shimogy_admin_data') || '{"notifications":[],"pendingRequests":[],"members":[],"investments":[]}');
+        
+        const notification = {
+            id: Date.now(),
+            type: 'investment',
+            message: `🔔 NEW: ${name} (${phone}) - ${inv.name} - UGX ${inv.price.toLocaleString()}`,
+            userName: name,
+            userPhone: phone,
+            time: new Date().toLocaleString(),
+            details: {
+                name: inv.name,
+                amount: inv.price,
+                expectedReturn: inv.return,
+                duration: inv.duration
+            }
+        };
+        
+        adminData.notifications.unshift(notification);
+        adminData.pendingRequests.push({
+            id: Date.now(),
+            type: 'investment',
+            userName: name,
+            userPhone: phone,
+            details: notification.details,
+            time: new Date().toLocaleString(),
+            status: 'pending'
+        });
+        
+        // Find or create member
+        let member = adminData.members.find(m => m.phone === phone);
+        if (!member) {
+            member = {
+                id: Date.now(),
+                name: name,
+                phone: phone,
+                email: "",
+                status: "active",
+                joined: new Date().toISOString().split('T')[0],
+                balance: 0,
+                totalInvested: 0,
+                dailyEarnings: 0,
+                password: phone.slice(-4),
+                investments: []
+            };
+            adminData.members.push(member);
+        }
+        
+        localStorage.setItem('shimogy_admin_data', JSON.stringify(adminData));
+        
+        // Update slots
+        inv.slotsLeft--;
+        if (inv.slotsLeft === 0) inv.status = 'booked';
+        
+        // Close modal
+        document.getElementById('investModal').classList.remove('active');
+        
+        // Refresh display
+        renderInvestments(currentFilter);
+        selectedInvestment = null;
+        
+        // Open WhatsApp in a new tab with the pre-typed message
+        // The client just needs to tap "Send" on WhatsApp
+        window.open(whatsappURL, '_blank');
+        
+        // Simulate countdown for demo
+        const currentInv = inv;
+        setTimeout(() => {
+            if (currentInv.status === 'booked') {
+                currentInv.status = 'ready';
+                renderInvestments(currentFilter);
+            }
+        }, 15000);
+    }
+
+    // Show access modal
+    function showAccessModal() {
+        document.getElementById('accessModal').classList.add('active');
+    }
+
+    // Close access modal
+    function closeAccessModal() {
+        document.getElementById('accessModal').classList.remove('active');
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        renderInvestments();
+        
+        // Setup modal close on outside click
+        const modals = ['investModal', 'cycleModal', 'savingsModal', 'loanModal', 'accessModal'];
+        modals.forEach(modalId => {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        modal.classList.remove('active');
+                    }
+                });
+            }
+        });
+        
+        // Setup investment submit button
+        const investSubmit = document.getElementById('investSubmit');
+        const investCancel = document.getElementById('investCancel');
+        
+        if (investSubmit) {
+            investSubmit.onclick = submitInvestmentViaWhatsApp;
+        }
+        
+        if (investCancel) {
+            investCancel.onclick = function() {
+                document.getElementById('investModal').classList.remove('active');
+                selectedInvestment = null;
+            };
+        }
+    });
+
+    // Make functions global
+    window.openInvestModal = openInvestModal;
+    window.filterInvestments = filterInvestments;
+    window.submitInvestmentViaWhatsApp = submitInvestmentViaWhatsApp;
+</script>
+
+</body>
+</html>

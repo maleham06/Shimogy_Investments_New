@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIMOGY | Updates - Latest News & Community Stories</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700;6..96,800;6..96,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+      
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #0a1628;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Floating particles */
+        .news-particles {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none; overflow: hidden;
+        }
+        .news-particle {
+            position: absolute; animation: newsFloat 20s infinite linear; opacity: 0.2; font-size: 1.8rem;
+        }
+        @keyframes newsFloat {
+            0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+            5% { opacity: 0.25; }
+            50% { transform: translateY(50vh) rotate(180deg) translateX(60px); }
+            95% { opacity: 0.25; }
+            100% { transform: translateY(-5vh) rotate(360deg) translateX(-30px); opacity: 0; }
+        }
+
+        /* Water ripple */
+        .water-ripple {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            border-radius: 50%; border: 1px solid rgba(0, 180, 216, 0.03);
+            animation: rippleExpand 7s infinite ease-out; z-index: 0; pointer-events: none;
+        }
+        .water-ripple:nth-child(1) { width: 400px; height: 400px; }
+        .water-ripple:nth-child(2) { animation-delay: 1.4s; width: 330px; height: 330px; }
+        .water-ripple:nth-child(3) { animation-delay: 2.8s; width: 260px; height: 260px; }
+        .water-ripple:nth-child(4) { animation-delay: 4.2s; width: 190px; height: 190px; }
+        @keyframes rippleExpand {
+            0% { transform: translate(-50%, -50%) scale(0.4); opacity: 0.5; }
+            100% { transform: translate(-50%, -50%) scale(3.5); opacity: 0; }
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(6, 13, 26, 0.94); backdrop-filter: blur(20px);
+            padding: 0.8rem 2rem; position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(0, 180, 216, 0.2); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        .nav-container {
+            max-width: 1400px; margin: 0 auto; display: flex;
+            justify-content: space-between; align-items: center; flex-wrap: wrap;
+        }
+        .logo-area { display: flex; align-items: center; gap: 12px; cursor: pointer; text-decoration: none; }
+        .logo-area img { height: 50px; width: auto; border-radius: 12px; object-fit: cover; box-shadow: 0 0 20px rgba(0, 180, 216, 0.3); border: 2px solid rgba(0, 180, 216, 0.4); }
+        .logo-placeholder { width: 42px; height: 42px; background: linear-gradient(135deg, #00b4d8, #0077b6); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: white; }
+        .logo-text h1 { font-family: 'Bodoni Moda', serif; font-size: 1.4rem; font-weight: 900; background: linear-gradient(135deg, #ffffff, #48cae4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; letter-spacing: 2px; }
+        .logo-text p { font-size: 0.55rem; letter-spacing: 3px; color: #48cae4; font-weight: 600; }
+        .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+        .nav-links a { text-decoration: none; font-weight: 500; color: rgba(255, 255, 255, 0.85); transition: 0.3s; padding: 0.5rem 0; position: relative; font-size: 0.8rem; letter-spacing: 0.5px; }
+        .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0%; height: 2px; background: linear-gradient(90deg, #00b4d8, #48cae4); transition: width 0.3s; }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a:hover, .nav-links a.active { color: #48cae4; }
+        .account-icon { width: 38px; height: 38px; background: linear-gradient(135deg, #00b4d8, #0077b6); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; font-size: 1.1rem; color: white; }
+        .account-icon:hover { transform: scale(1.1); }
+
+        /* Page Header */
+        .page-header {
+            position: relative; padding: 4rem 2rem; text-align: center; z-index: 1;
+            background: url('https://images.unsplash.com/photo-1590701833281-e6283af0948d?w=1920&h=600&fit=crop') center/cover no-repeat;
+            background-attachment: fixed;
+        }
+        .page-header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(6, 13, 26, 0.92) 0%, rgba(6, 20, 40, 0.8) 100%); z-index: -1; }
+        .page-header .header-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(0, 180, 216, 0.1); border: 1px solid rgba(0, 180, 216, 0.25); padding: 6px 16px; border-radius: 50px; color: #48cae4; font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.2rem; }
+        .page-header h1 { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 800; background: linear-gradient(135deg, #ffffff 0%, #48cae4 50%, #ffffff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.8rem; }
+        .page-header p { font-size: 1rem; color: rgba(255, 255, 255, 0.65); max-width: 550px; margin: 0 auto; }
+
+        /* Sections */
+        .section-padding { padding: 3.5rem 1.5rem; position: relative; z-index: 1; }
+        .section-bg { padding: 3.5rem 1.5rem; position: relative; z-index: 1; background-size: cover; background-position: center; background-attachment: fixed; }
+        .section-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(6, 13, 26, 0.93) 0%, rgba(6, 20, 40, 0.87) 100%); z-index: 1; }
+        .section-inner { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 2.5rem; }
+        .section-header .section-tag { display: inline-block; color: #48cae4; font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.8rem; }
+        .section-header h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 800; margin-bottom: 0.8rem; background: linear-gradient(135deg, #ffffff, #48cae4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .section-header p { font-size: 1rem; color: rgba(255, 255, 255, 0.6); max-width: 500px; margin: 0 auto; }
+
+        /* Welcome message */
+        .startup-note {
+            background: rgba(255, 152, 0, 0.06); border: 1px solid rgba(255, 152, 0, 0.2);
+            border-radius: 16px; padding: 1.5rem; text-align: center; max-width: 700px; margin: 0 auto 2.5rem;
+        }
+        .startup-note p { color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; line-height: 1.6; }
+        .startup-note strong { color: #ffb800; }
+
+        /* Updates Grid */
+        .updates-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem; max-width: 1100px; margin: 0 auto;
+        }
+        .update-card {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px; overflow: hidden; transition: all 0.3s; cursor: pointer;
+        }
+        .update-card:hover { border-color: rgba(0, 180, 216, 0.3); background: rgba(0, 180, 216, 0.03); transform: translateY(-4px); }
+        .update-card .update-img { height: 180px; background-size: cover; background-position: center; }
+        .update-card .update-body { padding: 1.2rem; }
+        .update-card .update-tag { display: inline-block; padding: 3px 10px; border-radius: 15px; font-size: 0.65rem; font-weight: 600; letter-spacing: 1px; margin-bottom: 0.6rem; }
+        .tag-story { background: rgba(0, 230, 118, 0.12); color: #00e676; }
+        .tag-news { background: rgba(0, 180, 216, 0.12); color: #48cae4; }
+        .tag-tip { background: rgba(255, 152, 0, 0.12); color: #ffb800; }
+        .tag-event { background: rgba(156, 39, 176, 0.12); color: #ce93d8; }
+        .update-card h4 { font-size: 1rem; margin-bottom: 0.4rem; color: white; }
+        .update-card .update-excerpt { color: rgba(255, 255, 255, 0.55); font-size: 0.82rem; line-height: 1.5; margin-bottom: 0.8rem; }
+        .update-card .read-more { color: #48cae4; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+        .update-card .update-detail { display: none; padding: 0.8rem; background: rgba(0, 0, 0, 0.2); border-radius: 10px; margin-top: 0.6rem; color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; line-height: 1.6; border-left: 2px solid #00b4d8; }
+        .update-card .update-detail.show { display: block; }
+
+        /* CTA */
+        .cta-box {
+            background: rgba(0, 180, 216, 0.05); border: 1px solid rgba(0, 180, 216, 0.15);
+            border-radius: 20px; padding: 2rem; text-align: center; max-width: 500px; margin: 0 auto;
+        }
+        .cta-box h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 0.8rem; }
+        .cta-box p { color: rgba(255, 255, 255, 0.55); margin-bottom: 1.2rem; font-size: 0.9rem; }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #00b4d8, #0077b6); border: none; padding: 12px 25px;
+            border-radius: 50px; font-weight: 600; font-size: 0.9rem; color: white; cursor: pointer;
+            transition: all 0.3s; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 180, 216, 0.4); }
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E); border: none; padding: 12px 25px;
+            border-radius: 50px; font-weight: 600; font-size: 0.9rem; color: white; cursor: pointer;
+            transition: all 0.3s; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .btn-whatsapp:hover { transform: translateY(-2px); }
+
+        /* Footer */
+        footer {
+            background: rgba(6, 13, 26, 0.96); backdrop-filter: blur(20px); padding: 2rem 1.5rem;
+            text-align: center; border-top: 1px solid rgba(0, 180, 216, 0.15); position: relative; z-index: 1; margin-top: auto;
+        }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; max-width: 900px; margin: 0 auto 1.5rem; }
+        .icons { display: flex; gap: 12px; justify-content: center; font-size: 20px; }
+        .icons a { color: rgba(255, 255, 255, 0.5); transition: 0.3s; }
+        .icons a:hover { color: #48cae4; transform: scale(1.15); }
+
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2rem; }
+            .section-header h2 { font-size: 1.7rem; }
+            .updates-grid { grid-template-columns: 1fr; }
+            .nav-container { flex-direction: column; gap: 0.6rem; }
+            .nav-links { gap: 0.6rem; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="news-particles" id="newsParticles"></div>
+<div class="water-ripple"></div><div class="water-ripple"></div><div class="water-ripple"></div><div class="water-ripple"></div>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="nav-container">
+        <div class="logo-area" onclick="location.href='index.html'">
+            <img src="images/logobg.png" alt="SHIMOGY Logo">
+            <div class="logo-placeholder"><i class="fas fa-chart-line"></i></div>
+            <div class="logo-text"><h1>SHIMOGY</h1><p>INVESTMENT GROUP</p></div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="investments.html">Investments</a>
+            <a href="cycles.html">Cycles</a>
+            <a href="savings.html">Savings</a>
+            <a href="loans.html">Loans</a>
+            <a href="updates.html" class="active">Updates</a>
+            <a href="about.html">About Us</a>
+            <a href="dashboard.html">My Dashboard</a>
+            <div class="account-icon" onclick="alert('🔐 Contact admin for dashboard access')"><i class="fas fa-user-shield"></i></div>
+        </div>
+    </div>
+</div>
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="header-tag"><i class="fas fa-bullhorn"></i> News & Stories</div>
+    <h1>Our Journey & Updates</h1>
+    <p>Follow our growth story as we build a trusted investment community in Kawempe, Kampala</p>
+</div>
+
+<!-- Startup Note -->
+<div class="section-padding" style="padding-bottom: 0;">
+    <div class="section-inner">
+        <div class="startup-note">
+            <p>🚀 <strong>SHIMOGY is a growing startup</strong> based in Kawempe, Kampala. We're building our community one member at a time. Every investment, every saver, and every success story here is part of our early journey. Thank you for being part of our foundation!</p>
+        </div>
+    </div>
+</div>
+
+<!-- Updates Grid -->
+<div class="section-padding">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-tag">Latest Updates</div>
+            <h2>What's Happening at SHIMOGY</h2>
+            <p>Click any story to read more</p>
+        </div>
+        <div class="updates-grid" id="updatesGrid"></div>
+    </div>
+</div>
+
+<!-- CTA -->
+<div class="section-bg" style="background-image: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1920&h=500&fit=crop');">
+    <div class="section-overlay"></div>
+    <div class="section-inner">
+        <div class="cta-box">
+            <h3>📱 Stay Connected</h3>
+            <p>Get our updates directly on WhatsApp. We share tips, success stories, and new opportunities with our community.</p>
+            <button class="btn-whatsapp" onclick="window.open('https://wa.me/256752259416?text=' + encodeURIComponent('Hello SHIMOGY! I would like to receive updates about your investment group.'), '_blank')">
+                <i class="fab fa-whatsapp"></i> Join Our WhatsApp
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-grid">
+        <div><h3>📍 Location</h3><p>Kawempe, Kampala, Uganda</p></div>
+        <div><h3>📱 Follow Us</h3><div class="icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-tiktok"></i></a><a href="#"><i class="fab fa-youtube"></i></a><a href="https://wa.me/256752259416"><i class="fab fa-whatsapp"></i></a></div></div>
+        <div><h3>📞 Contact</h3><p>0752259416</p><p>0746788042</p></div>
+    </div>
+    <p style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.8rem; color: rgba(255,255,255,0.4);">© 2026 Shimogy Investment Group — Growing Together in Kawempe</p>
+</footer>
+
+<script>
+    (function() {
+        // Create particles
+        function createParticles() {
+            const container = document.getElementById('newsParticles');
+            if (!container) return;
+            const icons = ['📢', '💡', '🌱', '🤝', '📋', '⭐'];
+            for (let i = 0; i < 14; i++) {
+                const p = document.createElement('div');
+                p.classList.add('news-particle');
+                p.textContent = icons[Math.floor(Math.random() * icons.length)];
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 16 + 10) + 's';
+                p.style.animationDelay = Math.random() * 8 + 's';
+                container.appendChild(p);
+            }
+        }
+
+        // Realistic startup updates
+        const updates = [
+            {
+                img: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&h=300&fit=crop',
+                tag: 'story', tagName: 'Member Story',
+                title: 'Our First Poultry Farm Investor Gets Returns',
+                excerpt: 'One of our early members received their first return from the poultry farm plan this month.',
+                detail: 'We\'re excited to share that one of our first members who invested in the Poultry Farm plan successfully received their returns this week. The member, a small business owner from Kawempe, invested UGX 500,000 and received UGX 700,000 after the 60-day period. This is a small but important milestone for our young group, showing that our model works when we stay committed.'
+            },
+            {
+                img: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=500&h=300&fit=crop',
+                tag: 'news', tagName: 'Group News',
+                title: 'Welcome to Our New Members This Month',
+                excerpt: 'Five new members joined SHIMOGY this month — our biggest growth yet.',
+                detail: 'We\'re happy to welcome five new members who joined SHIMOGY this month from Kawempe and surrounding areas. Three opened Current savings accounts, and two invested in the Modern Stall plan. This brings our total membership to around 25 active members. Every new member strengthens our community and helps us grow together.'
+            },
+            {
+                img: 'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?w=500&h=300&fit=crop',
+                tag: 'tip', tagName: 'Savings Tip',
+                title: 'Tip: Start Small, Stay Consistent',
+                excerpt: 'Our best advice for new savers — you don\'t need millions to begin.',
+                detail: 'Many people think you need lots of money to start saving or investing. At SHIMOGY, you can start with as little as UGX 50,000 through our Modern Stall plan, or join a savings cycle with just UGX 3,000. The key is consistency — small regular deposits grow into significant savings over time. Several of our current members started small and are now growing steadily.'
+            },
+            {
+                img: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=500&h=300&fit=crop',
+                tag: 'news', tagName: 'Update',
+                title: 'Our Website Is Live!',
+                excerpt: 'SHIMOGY now has an online presence where you can browse plans and submit requests.',
+                detail: 'We\'re proud to announce that our website is now live! You can now browse all our investment plans, learn about savings accounts, and submit investment requests directly through the site. This is a big step for our small group as we work to make our services more accessible. Tell your friends and family to visit us online!'
+            },
+            {
+                img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&h=300&fit=crop',
+                tag: 'story', tagName: 'Success',
+                title: 'Modern Stall Investor Opens Small Shop',
+                excerpt: 'A member who started with UGX 50,000 has used returns to start a small retail business.',
+                detail: 'One of our members who invested UGX 50,000 in the Modern Stall plan received UGX 62,000 after 30 days. They used that return plus some savings to start a small retail shop selling household items in their neighborhood. It\'s a small beginning, but it shows how even modest investments can help create income opportunities for our members.'
+            },
+            {
+                img: 'https://images.unsplash.com/photo-1553284966-f4e7e0e8de1d?w=500&h=300&fit=crop',
+                tag: 'news', tagName: 'New Plan',
+                title: 'Transport Business Plan Now Available',
+                excerpt: 'We\'ve added a transport business investment option for UGX 1,000,000.',
+                detail: 'Responding to member interest, we\'ve introduced a Transport Business investment plan. Members can invest UGX 1,000,000 with an expected return of UGX 1,500,000 over 90 days. This is our highest-value plan so far and represents our ambition to offer diverse opportunities as we grow.'
+            },
+            {
+                img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=300&fit=crop',
+                tag: 'story', tagName: 'Member Story',
+                title: 'Meet Our First Savings Cycle Group',
+                excerpt: 'Our first GROUP 1 savings cycle has 5 members contributing UGX 3,000 each.',
+                detail: 'We launched our first community savings cycle (GROUP 1) this quarter with 5 members. Each member contributes UGX 3,000, and they take turns receiving the pooled amount. This traditional savings method helps members access lump sums for small needs. We plan to start more groups as our community grows.'
+            },
+            {
+                img: 'https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?w=500&h=300&fit=crop',
+                tag: 'tip', tagName: 'Tip',
+                title: 'Why Join a SACCO Group?',
+                excerpt: 'Understanding the benefits of community-based savings and investment groups.',
+                detail: 'SACCOs (Savings and Credit Cooperative Organizations) like SHIMOGY offer several advantages: you save together with people you know, you can access small loans based on your savings, and profits are shared among members. Unlike banks, SACCOs are member-owned — meaning you have a say in how things run. As we grow, our members will benefit from annual dividends.'
+            },
+            {
+                img: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=500&h=300&fit=crop',
+                tag: 'event', tagName: 'Coming Soon',
+                title: 'Free Financial Literacy Workshop Planned',
+                excerpt: 'We\'re organizing our first community workshop on saving and budgeting basics.',
+                detail: 'We\'re planning to hold our first free financial literacy workshop in Kawempe next month. The workshop will cover basics like budgeting, saving strategies, and understanding investment returns. It\'s open to all SHIMOGY members and anyone from the community who wants to learn. Date and venue will be shared on WhatsApp soon.'
+            },
+            {
+                img: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=500&h=300&fit=crop',
+                tag: 'news', tagName: 'Growth',
+                title: 'Looking Ahead: Our Goals for This Year',
+                excerpt: 'We\'re setting realistic goals as a young investment group in Kampala.',
+                detail: 'As a startup, our goals are modest but meaningful: reach 50 active members by year-end, successfully complete all current investment cycles, launch at least two savings groups, and build a reputation for reliability. We believe slow, steady growth is the foundation of lasting success. Thank you to every member who is part of this journey.'
+            }
+        ];
+
+        function renderUpdates() {
+            const grid = document.getElementById('updatesGrid');
+            if (!grid) return;
+            grid.innerHTML = updates.map(function(u, i) {
+                return `
+                    <div class="update-card">
+                        <div class="update-img" style="background-image: url('${u.img}');"></div>
+                        <div class="update-body">
+                            <span class="update-tag tag-${u.tag}">${u.tagName}</span>
+                            <h4>${u.title}</h4>
+                            <p class="update-excerpt">${u.excerpt}</p>
+                            <span class="read-more" onclick="toggleDetail(${i})">
+                                Read more <i class="fas fa-chevron-down" id="icon${i}"></i>
+                            </span>
+                            <div class="update-detail" id="detail${i}">
+                                <p>${u.detail}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.toggleDetail = function(index) {
+            const detail = document.getElementById('detail' + index);
+            const icon = document.getElementById('icon' + index);
+            if (!detail) return;
+            
+            document.querySelectorAll('.update-detail.show').forEach(function(el) {
+                if (el !== detail) el.classList.remove('show');
+            });
+            document.querySelectorAll('.read-more i.fa-chevron-up').forEach(function(el) {
+                if (el !== icon) { el.classList.remove('fa-chevron-up'); el.classList.add('fa-chevron-down'); }
+            });
+            
+            if (detail.classList.contains('show')) {
+                detail.classList.remove('show');
+                if (icon) { icon.classList.remove('fa-chevron-up'); icon.classList.add('fa-chevron-down'); }
+            } else {
+                detail.classList.add('show');
+                if (icon) { icon.classList.remove('fa-chevron-down'); icon.classList.add('fa-chevron-up'); }
+                setTimeout(function() { detail.scrollIntoView({behavior: 'smooth', block: 'nearest'}); }, 100);
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            renderUpdates();
+        });
+    })();
+</script>
+
+</body>
+</html>

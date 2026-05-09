@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIMOGY | About Us - Partners for Life | Kawempe, Uganda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700;6..96,800;6..96,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #060d1a;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient orbs */
+        .about-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            pointer-events: none;
+            animation: orbFloat 10s infinite ease-in-out;
+        }
+        .about-orb:nth-child(1) { width: 350px; height: 350px; background: rgba(0, 180, 216, 0.04); top: 15%; left: 5%; }
+        .about-orb:nth-child(2) { width: 280px; height: 280px; background: rgba(255, 215, 0, 0.03); bottom: 20%; right: 10%; animation-delay: 5s; }
+        .about-orb:nth-child(3) { width: 220px; height: 220px; background: rgba(0, 230, 118, 0.03); top: 50%; left: 40%; animation-delay: 3s; }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(40px, -30px) scale(1.2); }
+            50% { transform: translate(-20px, 20px) scale(0.9); }
+            75% { transform: translate(-40px, -10px) scale(1.1); }
+        }
+
+        /* Geometric lines */
+        .geo-lines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none; opacity: 0.03;
+            background-image: 
+                linear-gradient(30deg, #00b4d8 1px, transparent 1px),
+                linear-gradient(-30deg, #00b4d8 1px, transparent 1px);
+            background-size: 80px 80px;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(6, 13, 26, 0.94); backdrop-filter: blur(20px);
+            padding: 0.8rem 2rem; position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(0, 180, 216, 0.2); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        .nav-container {
+            max-width: 1400px; margin: 0 auto; display: flex;
+            justify-content: space-between; align-items: center; flex-wrap: wrap;
+        }
+        .logo-area { display: flex; align-items: center; gap: 12px; cursor: pointer; text-decoration: none; }
+        .logo-area img { height: 50px; width: auto; border-radius: 12px; object-fit: cover; box-shadow: 0 0 20px rgba(0, 180, 216, 0.3); border: 2px solid rgba(0, 180, 216, 0.4); }
+        .logo-placeholder { width: 42px; height: 42px; background: linear-gradient(135deg, #00b4d8, #0077b6); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: white; }
+        .logo-text h1 { font-family: 'Bodoni Moda', serif; font-size: 1.4rem; font-weight: 900; background: linear-gradient(135deg, #ffffff, #48cae4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; letter-spacing: 2px; }
+        .logo-text p { font-size: 0.55rem; letter-spacing: 3px; color: #48cae4; font-weight: 600; }
+        .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+        .nav-links a { text-decoration: none; font-weight: 500; color: rgba(255, 255, 255, 0.85); transition: 0.3s; padding: 0.5rem 0; position: relative; font-size: 0.8rem; letter-spacing: 0.5px; }
+        .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0%; height: 2px; background: linear-gradient(90deg, #00b4d8, #48cae4); transition: width 0.3s; }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a:hover, .nav-links a.active { color: #48cae4; }
+        .account-icon { width: 38px; height: 38px; background: linear-gradient(135deg, #00b4d8, #0077b6); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; font-size: 1.1rem; color: white; }
+        .account-icon:hover { transform: scale(1.1); }
+
+        /* Hero Section - Different from other pages */
+        .about-hero {
+            position: relative; min-height: 70vh; display: flex; align-items: center;
+            background: url('https://images.unsplash.com/photo-1590701833281-e6283af0948d?w=1920&h=1080&fit=crop') center/cover no-repeat;
+            background-attachment: fixed; z-index: 1;
+        }
+        .about-hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(6, 13, 26, 0.93) 0%, rgba(6, 20, 40, 0.82) 100%);
+            z-index: 1;
+        }
+        .about-hero-content {
+            position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 3rem 2rem;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+        }
+        .about-hero-left h1 {
+            font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; line-height: 1.15;
+            background: linear-gradient(135deg, #ffffff 0%, #48cae4 40%, #ffd700 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+        .about-hero-left .tagline {
+            font-size: 1.2rem; color: #48cae4; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 1rem;
+        }
+        .about-hero-left p {
+            color: rgba(255, 255, 255, 0.7); font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.5rem;
+        }
+        .about-hero-right {
+            display: flex; flex-direction: column; gap: 1.2rem;
+        }
+        .about-stat-card {
+            background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px;
+            padding: 1.5rem; display: flex; align-items: center; gap: 1rem;
+            transition: all 0.3s;
+        }
+        .about-stat-card:hover { border-color: rgba(0, 180, 216, 0.35); transform: translateX(5px); }
+        .about-stat-card .stat-icon {
+            width: 55px; height: 55px; background: linear-gradient(135deg, rgba(0, 180, 216, 0.2), rgba(0, 119, 182, 0.15));
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; flex-shrink: 0;
+        }
+        .about-stat-card .stat-info h4 { font-size: 0.9rem; color: #48cae4; }
+        .about-stat-card .stat-info p { font-size: 0.8rem; color: rgba(255, 255, 255, 0.55); }
+
+        /* Sections */
+        .section-padding { padding: 4rem 1.5rem; position: relative; z-index: 1; }
+        .section-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+
+        /* Vision Mission - Side by Side */
+        .vision-mission-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+        }
+        .vm-card {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px; padding: 2.5rem; text-align: center; transition: all 0.3s;
+            position: relative; overflow: hidden;
+        }
+        .vm-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, #00b4d8, #48cae4, #00b4d8);
+        }
+        .vm-card.vision::before { background: linear-gradient(90deg, #ffd700, #ffb800, #ffd700); }
+        .vm-card:hover { transform: translateY(-5px); border-color: rgba(0, 180, 216, 0.3); }
+        .vm-card .vm-icon {
+            width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; margin: 0 auto 1.5rem; font-size: 2.5rem;
+        }
+        .vm-card.mission .vm-icon { background: linear-gradient(135deg, rgba(0, 180, 216, 0.2), rgba(0, 119, 182, 0.15)); }
+        .vm-card.vision .vm-icon { background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 184, 0, 0.15)); }
+        .vm-card h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 0.8rem; }
+        .vm-card.mission h3 { color: #48cae4; }
+        .vm-card.vision h3 { color: #ffd700; }
+        .vm-card p { color: rgba(255, 255, 255, 0.65); line-height: 1.7; font-size: 0.95rem; }
+
+        /* Values Grid */
+        .values-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem;
+        }
+        .value-item {
+            background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px; padding: 1.5rem; text-align: center; transition: all 0.3s;
+        }
+        .value-item:hover { border-color: rgba(0, 180, 216, 0.25); background: rgba(0, 180, 216, 0.03); }
+        .value-item .value-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+        .value-item h4 { color: #48cae4; font-size: 0.95rem; margin-bottom: 0.4rem; }
+        .value-item p { color: rgba(255, 255, 255, 0.5); font-size: 0.8rem; }
+
+        /* Map Section */
+        .map-section {
+            padding: 3rem 1.5rem; position: relative; z-index: 1;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .map-container {
+            max-width: 900px; margin: 0 auto;
+            border-radius: 24px; overflow: hidden;
+            border: 2px solid rgba(0, 180, 216, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+        #map {
+            height: 400px; width: 100%; z-index: 1;
+        }
+        .map-label {
+            text-align: center; margin-top: 1rem;
+        }
+        .map-label .location-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(0, 180, 216, 0.1); border: 1px solid rgba(0, 180, 216, 0.25);
+            padding: 8px 18px; border-radius: 50px; font-size: 0.85rem; color: #48cae4;
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;
+        }
+        .team-card {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px; padding: 2rem 1.5rem; text-align: center; transition: all 0.3s;
+        }
+        .team-card:hover { border-color: rgba(0, 180, 216, 0.3); transform: translateY(-5px); }
+        .team-avatar {
+            width: 90px; height: 90px; border-radius: 50%; object-fit: cover;
+            border: 3px solid #00b4d8; margin: 0 auto 1rem; display: block;
+        }
+        .team-card h4 { color: white; font-size: 1rem; margin-bottom: 0.2rem; }
+        .team-card .role { color: #48cae4; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .team-card p { color: rgba(255, 255, 255, 0.5); font-size: 0.8rem; line-height: 1.4; }
+
+        /* Timeline */
+        .timeline {
+            position: relative; max-width: 700px; margin: 0 auto; padding-left: 2rem;
+        }
+        .timeline::before {
+            content: ''; position: absolute; left: 0; top: 0; width: 2px; height: 100%;
+            background: linear-gradient(180deg, #00b4d8, transparent);
+        }
+        .timeline-item {
+            position: relative; padding-bottom: 2rem; padding-left: 1.5rem;
+        }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -2.5rem; top: 0.3rem;
+            width: 12px; height: 12px; border-radius: 50%;
+            background: #00b4d8; border: 2px solid #060d1a;
+            box-shadow: 0 0 10px rgba(0, 180, 216, 0.5);
+        }
+        .timeline-item .timeline-year { color: #48cae4; font-weight: 700; font-size: 0.85rem; }
+        .timeline-item h4 { margin: 0.3rem 0; font-size: 0.95rem; }
+        .timeline-item p { color: rgba(255, 255, 255, 0.55); font-size: 0.82rem; }
+
+        /* Contact Cards */
+        .contact-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem;
+        }
+        .contact-card {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px; padding: 1.5rem; text-align: center; transition: all 0.3s;
+            cursor: pointer;
+        }
+        .contact-card:hover { border-color: rgba(0, 180, 216, 0.3); background: rgba(0, 180, 216, 0.03); }
+        .contact-card i { font-size: 2rem; color: #48cae4; margin-bottom: 0.8rem; }
+        .contact-card h4 { font-size: 0.9rem; margin-bottom: 0.3rem; }
+        .contact-card p { color: rgba(255, 255, 255, 0.55); font-size: 0.82rem; }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #00b4d8, #0077b6); border: none; padding: 11px 22px;
+            border-radius: 50px; font-weight: 600; font-size: 0.85rem; color: white; cursor: pointer;
+            transition: all 0.3s; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 180, 216, 0.4); }
+
+        /* Section headers */
+        .section-title {
+            text-align: center; margin-bottom: 2.5rem;
+        }
+        .section-title .tag {
+            display: inline-block; color: #48cae4; font-size: 0.75rem; font-weight: 600;
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem;
+        }
+        .section-title h2 {
+            font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #48cae4);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .section-title p { color: rgba(255, 255, 255, 0.55); font-size: 0.9rem; max-width: 450px; margin: 0.5rem auto 0; }
+
+        /* Footer */
+        footer {
+            background: rgba(6, 13, 26, 0.96); padding: 2rem 1.5rem; text-align: center;
+            border-top: 1px solid rgba(0, 180, 216, 0.15); position: relative; z-index: 1; margin-top: auto;
+        }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; max-width: 900px; margin: 0 auto 1.5rem; }
+        .icons { display: flex; gap: 12px; justify-content: center; font-size: 20px; }
+        .icons a { color: rgba(255, 255, 255, 0.5); transition: 0.3s; }
+        .icons a:hover { color: #48cae4; transform: scale(1.15); }
+
+        @media (max-width: 768px) {
+            .about-hero-content { grid-template-columns: 1fr; text-align: center; }
+            .about-hero-left h1 { font-size: 2.2rem; }
+            .vision-mission-grid { grid-template-columns: 1fr; }
+            .nav-container { flex-direction: column; gap: 0.6rem; }
+            #map { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="about-orb"></div><div class="about-orb"></div><div class="about-orb"></div>
+<div class="geo-lines"></div>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="nav-container">
+        <div class="logo-area" onclick="location.href='index.html'">
+            <img src="images/logobg.png" alt="SHIMOGY Logo">
+            <div class="logo-placeholder"><i class="fas fa-chart-line"></i></div>
+            <div class="logo-text"><h1>SHIMOGY</h1><p>INVESTMENT GROUP</p></div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="investments.html">Investments</a>
+            <a href="cycles.html">Cycles</a>
+            <a href="savings.html">Savings</a>
+            <a href="loans.html">Loans</a>
+            <a href="updates.html">Updates</a>
+            <a href="about.html" class="active">About Us</a>
+            <a href="dashboard.html">My Dashboard</a>
+            <div class="account-icon" onclick="alert('🔐 Contact admin for dashboard access')"><i class="fas fa-user-shield"></i></div>
+        </div>
+    </div>
+</div>
+
+<!-- Hero Section -->
+<section class="about-hero">
+    <div class="about-hero-content">
+        <div class="about-hero-left">
+            <div class="tagline">Partners for Life</div>
+            <h1>Building Financial<br>Futures Together</h1>
+            <p>SHIMOGY Investment Group is a community-based savings and investment group founded in Kawempe, Kampala. We help everyday Ugandans grow their money through smart investments, community savings cycles, and affordable loans — all built on trust and transparency.</p>
+            <a href="investments.html" class="btn-primary"><i class="fas fa-rocket"></i> Explore Plans</a>
+        </div>
+        <div class="about-hero-right">
+            <div class="about-stat-card">
+                <div class="stat-icon">📍</div>
+                <div class="stat-info"><h4>Based in Kawempe</h4><p>Kampala, Uganda — serving our local community</p></div>
+            </div>
+            <div class="about-stat-card">
+                <div class="stat-icon">🤝</div>
+                <div class="stat-info"><h4>Community Owned</h4><p>Member-focused SACCO model where everyone benefits</p></div>
+            </div>
+            <div class="about-stat-card">
+                <div class="stat-icon">🌱</div>
+                <div class="stat-info"><h4>Growing Together</h4><p>A young group building trust one member at a time</p></div>
+            </div>
+            <div class="about-stat-card">
+                <div class="stat-icon">🔒</div>
+                <div class="stat-info"><h4>Transparent</h4><p>Open books, clear returns, no hidden charges</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Vision & Mission -->
+<section class="section-padding">
+    <div class="section-inner">
+        <div class="vision-mission-grid">
+            <div class="vm-card mission">
+                <div class="vm-icon">🎯</div>
+                <h3>Our Mission</h3>
+                <p>To offer smart and profitable investment opportunities with simplified financial solutions to our local community in Kawempe and beyond. We make investing accessible to every Ugandan, regardless of their starting point.</p>
+            </div>
+            <div class="vm-card vision">
+                <div class="vm-icon">🌟</div>
+                <h3>Our Vision</h3>
+                <p>To lead a positive financial transformation through smart investments and simplified financial solutions across Uganda. We envision a future where every hardworking Ugandan has access to reliable investment opportunities.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Core Values -->
+<section class="section-padding" style="background: rgba(0,0,0,0.15);">
+    <div class="section-inner">
+        <div class="section-title">
+            <div class="tag">What We Stand For</div>
+            <h2>Our Core Values</h2>
+            <p>The principles that guide everything we do at SHIMOGY</p>
+        </div>
+        <div class="values-grid">
+            <div class="value-item">
+                <div class="value-icon">🤝</div>
+                <h4>Transparency</h4>
+                <p>Open communication about all investments, returns, and group decisions.</p>
+            </div>
+            <div class="value-item">
+                <div class="value-icon">🛡️</div>
+                <h4>Integrity</h4>
+                <p>We do what we say. Every commitment to our members is honored.</p>
+            </div>
+            <div class="value-item">
+                <div class="value-icon">👥</div>
+                <h4>Community First</h4>
+                <p>The group's success is every member's success. We rise together.</p>
+            </div>
+            <div class="value-item">
+                <div class="value-icon">📈</div>
+                <h4>Growth Mindset</h4>
+                <p>We believe in continuous improvement — for our group and our members.</p>
+            </div>
+            <div class="value-item">
+                <div class="value-icon">🤲</div>
+                <h4>Inclusivity</h4>
+                <p>Open to all hardworking Ugandans, from small savers to big investors.</p>
+            </div>
+            <div class="value-item">
+                <div class="value-icon">⏳</div>
+                <h4>Patience</h4>
+                <p>We understand that real wealth is built steadily over time, not overnight.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Story Timeline -->
+<section class="section-padding">
+    <div class="section-inner">
+        <div class="section-title">
+            <div class="tag">Our Journey</div>
+            <h2>How We Started</h2>
+            <p>The story of SHIMOGY — from an idea to a growing community</p>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-year">Early 2024</div>
+                <h4>The Idea Is Born</h4>
+                <p>A small group of friends in Kawempe started discussing how they could pool resources to invest together rather than individually. The name "SHIMOGY" was created from the founders' vision.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">Mid 2024</div>
+                <h4>First Members Join</h4>
+                <p>The first few members joined with small contributions. We started with a simple savings cycle (GROUP 1) where members contributed UGX 3,000 each.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">Late 2024</div>
+                <h4>First Investment Plans</h4>
+                <p>We launched our first investment opportunities — the Men's Hair Salon and Modern Stall plans. These small-scale investments gave members a taste of earning returns.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">Early 2025</div>
+                <h4>Growing Slowly</h4>
+                <p>Word spread in Kawempe and more people joined. We added Poultry Farm and Restaurant plans. The group grew to about 15 active members.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2026</div>
+                <h4>Going Digital</h4>
+                <p>We launched this website to make it easier for members to browse plans, submit requests, and stay updated. We're now serving members across Kawempe and beyond.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="section-padding" style="background: rgba(0,0,0,0.15);">
+    <div class="section-inner">
+        <div class="section-title">
+            <div class="tag">Who We Are</div>
+            <h2>Meet Our Team</h2>
+            <p>The dedicated people behind SHIMOGY Investment Group</p>
+        </div>
+        <div class="team-grid">
+            <div class="team-card">
+                <img src="" alt="Founder" class="team-avatar">
+                <h4>Mukasa John</h4>
+                <div class="role">Founder & Coordinator</div>
+                <p>Leads group operations and member relations from our Kawempe office.</p>
+            </div>
+            <div class="team-card">
+                <img src="op" alt="Admin" class="team-avatar">
+                <h4>Namukasa Sarah</h4>
+                <div class="role">Admin & Member Support</div>
+                <p>Handles member inquiries, payment confirmations, and WhatsApp support.</p>
+            </div>
+            <div class="team-card">
+                <img src="op" alt="Treasurer" class="team-avatar">
+                <h4>Kato David</h4>
+                <div class="role">Treasurer</div>
+                <p>Manages group finances, tracks investments, and ensures timely returns.</p>
+            </div>
+            <div class="team-card">
+                <img src="h200&fit=crop" alt="Outreach" class="team-avatar">
+                <h4>Nakamya Grace</h4>
+                <div class="role">Community Outreach</div>
+                <p>Welcomes new members and organizes community financial literacy sessions.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Live Map Section -->
+<section class="map-section">
+    <div class="section-inner">
+        <div class="section-title">
+            <div class="tag">📍 Find Us</div>
+            <h2>Visit Our Office</h2>
+            <p>We're located in Kawempe Tula, Kampala — come see us!</p>
+        </div>
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+        <div class="map-label">
+            <div class="location-badge">
+                <i class="fas fa-map-marker-alt"></i>
+                Kawempe Tula, Kampala, Uganda
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="section-padding">
+    <div class="section-inner">
+        <div class="section-title">
+            <div class="tag">Get In Touch</div>
+            <h2>Contact Us</h2>
+            <p>We're always happy to hear from you</p>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-card" onclick="window.open('https://wa.me/256752259416', '_blank')">
+                <i class="fab fa-whatsapp"></i>
+                <h4>WhatsApp</h4>
+                <p>+256 752259416</p>
+                <p style="font-size:0.7rem; color:#00e676;">Click to chat instantly</p>
+            </div>
+            <div class="contact-card" onclick="location.href='tel:+256752259416'">
+                <i class="fas fa-phone"></i>
+                <h4>Call Us</h4>
+                <p>0752259416</p>
+                <p>0746788042</p>
+            </div>
+            <div class="contact-card">
+                <i class="fas fa-envelope"></i>
+                <h4>Email</h4>
+                <p>info@shimogy.com</p>
+                <p style="font-size:0.7rem;">We reply within 24 hours</p>
+            </div>
+            <div class="contact-card">
+                <i class="fas fa-clock"></i>
+                <h4>Working Hours</h4>
+                <p>Mon - Sat: 8AM - 6PM</p>
+                <p>Sunday: Closed</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-grid">
+        <div><h3>📍 Location</h3><p>Kawempe Tula, Kampala</p><p>Uganda, East Africa</p></div>
+        <div><h3>📱 Follow Us</h3><div class="icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-tiktok"></i></a><a href="#"><i class="fab fa-youtube"></i></a><a href="https://wa.me/256752259416"><i class="fab fa-whatsapp"></i></a></div></div>
+        <div><h3>📞 Contact</h3><p>0752259416</p><p>0746788042</p></div>
+    </div>
+    <p style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.8rem; color: rgba(255,255,255,0.4);">© 2026 Shimogy Investment Group — Partners for Life | Kawempe Tula, Kampala</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    (function() {
+        // Initialize the map centered on Kawempe Tula, Kampala
+        function initMap() {
+            const mapContainer = document.getElementById('map');
+            if (!mapContainer) return;
+
+            // Kawempe Tula coordinates (approximate)
+            const kawempeLat = 0.3792;
+            const kawempeLng = 32.5585;
+
+            const map = L.map('map').setView([kawempeLat, kawempeLng], 15);
+
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            // Custom icon for SHIMOGY
+            const shimogyIcon = L.divIcon({
+                html: '<div style="background: linear-gradient(135deg, #00b4d8, #0077b6); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.4); font-size: 18px;">📍</div>',
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+                popupAnchor: [0, -45]
+            });
+
+            // Add marker for SHIMOGY office
+            const marker = L.marker([kawempeLat, kawempeLng], { icon: shimogyIcon }).addTo(map);
+            marker.bindPopup(`
+                <div style="text-align:center; font-family: sans-serif;">
+                    <strong style="color:#0077b6;">🏢 SHIMOGY Investment Group</strong><br>
+                    <span style="font-size:13px;">Kawempe Tula, Kampala</span><br>
+                    <span style="font-size:12px; color:#666;">📞 0752259416</span><br>
+                    <a href="https://wa.me/256752259416" target="_blank" style="color:#25D366;">💬 Chat on WhatsApp</a>
+                </div>
+            `).openPopup();
+
+            // Add circle to show approximate service area
+            L.circle([kawempeLat, kawempeLng], {
+                color: '#00b4d8',
+                fillColor: '#00b4d8',
+                fillOpacity: 0.08,
+                radius: 1500
+            }).addTo(map).bindPopup('Our service area — Kawempe and surroundings');
+
+            console.log('🗺️ Map loaded successfully — Kawempe Tula, Kampala');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initMap();
+        });
+    })();
+</script>
+
+</body>
+</html>

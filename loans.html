@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIMOGY | Loans - Quick & Smart Loans</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700;6..96,800;6..96,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+           
+            background-size: cover !important;
+            background-attachment: fixed !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-color: #0a1628 !important;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        body::before, 
+        body::after {
+            display: none !important;
+            content: none !important;
+        }
+
+        /* Water Ripple */
+        .water-ripple {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 1px solid rgba(0, 180, 216, 0.04);
+            animation: rippleExpand 6s infinite ease-out;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .water-ripple:nth-child(1) { width: 400px; height: 400px; }
+        .water-ripple:nth-child(2) { animation-delay: 1.2s; width: 350px; height: 350px; }
+        .water-ripple:nth-child(3) { animation-delay: 2.4s; width: 300px; height: 300px; }
+        .water-ripple:nth-child(4) { animation-delay: 3.6s; width: 250px; height: 250px; }
+        .water-ripple:nth-child(5) { animation-delay: 4.8s; width: 200px; height: 200px; }
+
+        @keyframes rippleExpand {
+            0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0.6; }
+            100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
+        }
+
+        /* Floating currency particles */
+        .currency-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .coin-particle {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: coinFloat 12s infinite linear;
+            opacity: 0.3;
+        }
+
+        @keyframes coinFloat {
+            0% { transform: translateY(100vh) rotate(0deg) translateX(0); opacity: 0; }
+            10% { opacity: 0.4; }
+            50% { transform: translateY(50vh) rotate(180deg) translateX(80px); opacity: 0.25; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) rotate(360deg) translateX(-40px); opacity: 0; }
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(6, 13, 26, 0.94);
+            backdrop-filter: blur(20px);
+            padding: 0.8rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 180, 216, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logo-area img {
+            height: 55px;
+            width: auto;
+            border-radius: 14px;
+            object-fit: cover;
+            box-shadow: 0 0 20px rgba(0, 180, 216, 0.3);
+            border: 2px solid rgba(0, 180, 216, 0.4);
+        }
+
+        .logo-placeholder {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #00b4d8, #0077b6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+            box-shadow: 0 0 15px rgba(0, 180, 216, 0.3);
+        }
+
+        .logo-text h1 {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff, #48cae4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        .logo-text p {
+            font-size: 0.6rem;
+            letter-spacing: 3px;
+            color: #48cae4;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.85);
+            transition: 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(90deg, #00b4d8, #48cae4);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #48cae4;
+        }
+
+        .account-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #00b4d8, #0077b6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1.2rem;
+            color: white;
+            box-shadow: 0 0 15px rgba(0, 180, 216, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .account-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 180, 216, 0.6);
+        }
+
+        /* Page Header */
+        .page-header {
+            position: relative;
+            padding: 5rem 2rem;
+            text-align: center;
+            z-index: 1;
+            background: url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1920&h=600&fit=crop') center/cover no-repeat;
+            background-attachment: fixed;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(6, 13, 26, 0.9) 0%, rgba(6, 20, 40, 0.8) 100%);
+            z-index: -1;
+        }
+
+        .page-header .header-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 152, 0, 0.12);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            padding: 8px 20px;
+            border-radius: 50px;
+            color: #ffb800;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #ffd700 50%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Section Styles */
+        .section-padding {
+            padding: 5rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-nature-bg {
+            padding: 5rem 2rem;
+            position: relative;
+            z-index: 1;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .section-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(6, 13, 26, 0.92) 0%, rgba(6, 20, 40, 0.85) 100%);
+            z-index: 1;
+        }
+
+        .section-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-header .section-tag {
+            display: inline-block;
+            color: #48cae4;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff, #48cae4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.65);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Loan Hero Card */
+        .loan-hero-card {
+            background: rgba(10, 40, 80, 0.3);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 28px;
+            padding: 3rem 2rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loan-hero-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.04) 0%, transparent 70%);
+            animation: rotateGlow 10s infinite linear;
+        }
+
+        @keyframes rotateGlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .loan-hero-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .loan-hero-card .no-collateral {
+            font-size: 1.3rem;
+            color: #ffd700;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        /* Loan Amount Cards Grid */
+        .loan-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 2rem auto 0;
+        }
+
+        .loan-amount-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .loan-amount-card:hover {
+            border-color: rgba(255, 215, 0, 0.4);
+            background: rgba(255, 215, 0, 0.05);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .loan-amount-card.popular {
+            border-color: rgba(255, 215, 0, 0.4);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.08);
+        }
+
+        .loan-amount-card .popular-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: linear-gradient(135deg, #ffd700, #ffb800);
+            color: #000;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .loan-amount-card .loan-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .loan-amount-card .loan-amount-display {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #ffd700;
+        }
+
+        .loan-amount-card .loan-type-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0.5rem 0;
+        }
+
+        .loan-amount-card .loan-details {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        /* Requirements Section */
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .requirement-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            transition: all 0.3s;
+        }
+
+        .requirement-card:hover {
+            border-color: rgba(0, 180, 216, 0.3);
+            background: rgba(0, 180, 216, 0.04);
+        }
+
+        .requirement-card .req-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 230, 118, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #00e676;
+            flex-shrink: 0;
+        }
+
+        .requirement-card .req-text h4 {
+            color: #48cae4;
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .requirement-card .req-text p {
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 0.85rem;
+        }
+
+        /* Benefits */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .benefit-card:hover {
+            border-color: rgba(0, 180, 216, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .benefit-card .benefit-icon {
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, rgba(0, 180, 216, 0.15), rgba(0, 119, 182, 0.1));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+
+        .benefit-card h4 {
+            color: #48cae4;
+            margin-bottom: 0.5rem;
+        }
+
+        .benefit-card p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #00b4d8, #0077b6);
+            border: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 20px rgba(0, 180, 216, 0.3);
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 180, 216, 0.5);
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            border: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+            animation: whatsappPulse 2.5s infinite;
+            flex: 1;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes whatsappPulse {
+            0%, 100% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3); }
+            50% { box-shadow: 0 8px 35px rgba(37, 211, 102, 0.6); }
+        }
+
+        .btn-whatsapp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.5);
+        }
+
+        .btn-outline-light {
+            background: transparent;
+            border: 1px solid rgba(0, 180, 216, 0.4);
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            text-align: center;
+        }
+
+        .btn-outline-light:hover {
+            background: rgba(0, 180, 216, 0.1);
+            border-color: #48cae4;
+            color: white;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(6, 13, 26, 0.96);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0a1a35, #0d2247);
+            border-radius: 28px;
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 520px;
+            border: 1px solid rgba(0, 180, 216, 0.35);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h3 {
+            color: #48cae4;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .modal-content input,
+        .modal-content select {
+            width: 100%;
+            padding: 13px 18px;
+            margin: 8px 0;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 180, 216, 0.3);
+            background: rgba(255, 255, 255, 0.04);
+            color: white;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .modal-content select {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .modal-content select option {
+            background: #0a1a35;
+            color: white;
+        }
+
+        .modal-content input:focus,
+        .modal-content select:focus {
+            border-color: #00b4d8;
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .modal-content input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .loan-summary-box {
+            background: rgba(255, 215, 0, 0.06);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 16px;
+            padding: 1rem;
+            text-align: center;
+            margin: 0.8rem 0;
+        }
+
+        .loan-summary-box .selected-amount {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #ffd700;
+        }
+
+        .whatsapp-info {
+            background: rgba(37, 211, 102, 0.08);
+            border: 1px solid rgba(37, 211, 102, 0.25);
+            border-radius: 14px;
+            padding: 0.8rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.65);
+            margin: 1rem 0;
+        }
+
+        /* No Account Message */
+        .no-account-alert {
+            background: rgba(255, 152, 0, 0.1);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .no-account-alert h4 {
+            color: #ff9800;
+            margin-bottom: 0.8rem;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(6, 13, 26, 0.96);
+            backdrop-filter: blur(20px);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(0, 180, 216, 0.2);
+            position: relative;
+            z-index: 1;
+            margin-top: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto 2rem;
+        }
+
+        .icons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .icons a {
+            color: rgba(255, 255, 255, 0.55);
+            transition: 0.3s;
+        }
+
+        .icons a:hover {
+            color: #48cae4;
+            transform: scale(1.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2.2rem; }
+            .section-header h2 { font-size: 2rem; }
+            .loan-hero-card h2 { font-size: 1.8rem; }
+            .section-padding, .section-nature-bg { padding: 3rem 1rem; }
+            .nav-container { flex-direction: column; gap: 0.8rem; }
+            .nav-links { gap: 0.8rem; justify-content: center; }
+            .loan-cards-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 480px) {
+            .loan-cards-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Background Effects -->
+<div class="currency-particles" id="currencyParticles"></div>
+<div class="water-ripple"></div><div class="water-ripple"></div><div class="water-ripple"></div><div class="water-ripple"></div><div class="water-ripple"></div>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="nav-container">
+        <div class="logo-area" onclick="location.href='index.html'">
+            <img src="images/logobg.png" alt="SHIMOGY Logo">
+            <div class="logo-placeholder"><i class="fas fa-chart-line"></i></div>
+            <div class="logo-text"><h1>SHIMOGY</h1><p>INVESTMENT GROUP</p></div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="investments.html">Investments</a>
+            <a href="cycles.html">Cycles</a>
+            <a href="savings.html">Savings</a>
+            <a href="loans.html" class="active">Loans</a>
+            <a href="updates.html">Updates</a>
+            <a href="about.html">About Us</a>
+            <a href="dashboard.html">My Dashboard</a>
+            <div class="account-icon" id="accessBtn"><i class="fas fa-user-shield"></i></div>
+        </div>
+    </div>
+</div>
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="header-tag">
+        <i class="fas fa-bolt"></i> Quick Loans
+    </div>
+    <h1>Get a Quick & Smart<br>Loan Now</h1>
+    <p>Access affordable financing with no collateral required. Fast approval for our SACCO members with active savings or investment accounts.</p>
+</div>
+
+<!-- Main Loan Section -->
+<div class="section-padding">
+    <div class="section-inner">
+        <div class="loan-hero-card">
+            <h2>💰 Need Fast Cash?</h2>
+            <p class="no-collateral">With No Collateral Required</p>
+            <p style="color: rgba(255,255,255,0.65); margin-bottom: 1.5rem; position: relative;">
+                Choose your loan amount below. Submit your request directly to our admin via WhatsApp for quick processing.
+            </p>
+
+            <!-- Loan Amount Cards -->
+            <div class="loan-cards-grid">
+                <div class="loan-amount-card loan-card-btn" data-amount="100000" data-label="Micro Loan" data-duration="1 month">
+                    <div class="loan-icon">💵</div>
+                    <div class="loan-amount-display">UGX 100K</div>
+                    <div class="loan-type-label">Micro Loan</div>
+                    <div class="loan-details">1 month • 10% interest</div>
+                </div>
+                <div class="loan-amount-card loan-card-btn popular" data-amount="250000" data-label="Mini Loan" data-duration="2 months">
+                    <div class="popular-badge">POPULAR</div>
+                    <div class="loan-icon">💰</div>
+                    <div class="loan-amount-display">UGX 250K</div>
+                    <div class="loan-type-label">Mini Loan</div>
+                    <div class="loan-details">2 months • 10% interest</div>
+                </div>
+                <div class="loan-amount-card loan-card-btn" data-amount="500000" data-label="Standard Loan" data-duration="3 months">
+                    <div class="loan-icon">💳</div>
+                    <div class="loan-amount-display">UGX 500K</div>
+                    <div class="loan-type-label">Standard Loan</div>
+                    <div class="loan-details">3 months • 10% interest</div>
+                </div>
+                <div class="loan-amount-card loan-card-btn" data-amount="1000000" data-label="Business Loan" data-duration="3 months">
+                    <div class="loan-icon">🏪</div>
+                    <div class="loan-amount-display">UGX 1M</div>
+                    <div class="loan-type-label">Business Loan</div>
+                    <div class="loan-details">3 months • 10% interest</div>
+                </div>
+                <div class="loan-amount-card loan-card-btn" data-amount="2000000" data-label="Growth Loan" data-duration="4 months">
+                    <div class="loan-icon">📈</div>
+                    <div class="loan-amount-display">UGX 2M</div>
+                    <div class="loan-type-label">Growth Loan</div>
+                    <div class="loan-details">4 months • 10% interest</div>
+                </div>
+                <div class="loan-amount-card custom-loan-btn">
+                    <div class="loan-icon">✏️</div>
+                    <div class="loan-amount-display">Custom</div>
+                    <div class="loan-type-label">Request Amount</div>
+                    <div class="loan-details">Flexible terms available</div>
+                </div>
+            </div>
+
+            <!-- No Account Alert -->
+            <div class="no-account-alert">
+                <h4><i class="fas fa-exclamation-triangle"></i> Loan Requirements</h4>
+                <p style="color: rgba(255,255,255,0.7); margin-bottom: 1rem;">
+                    You need an active Savings or Investment account to qualify for a loan.
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="savings.html" class="btn-primary" style="width: auto;">
+                        <i class="fas fa-piggy-bank"></i> Open Savings Account
+                    </a>
+                    <a href="investments.html" class="btn-primary" style="width: auto; background: linear-gradient(135deg, #1e7e34, #27ae60);">
+                        <i class="fas fa-chart-line"></i> Start Investing
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Requirements Section -->
+<div class="section-nature-bg" style="background-image: url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1920&h=800&fit=crop');">
+    <div class="section-overlay"></div>
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-tag">Eligibility</div>
+            <h2>Loan Requirements</h2>
+            <p>What you need to qualify for a SHIMOGY loan</p>
+        </div>
+        <div class="requirements-grid">
+            <div class="requirement-card">
+                <div class="req-icon"><i class="fas fa-check"></i></div>
+                <div class="req-text">
+                    <h4>Active Savings Account</h4>
+                    <p>Current or Fixed savings account that has been active for at least 3 months with consistent deposits.</p>
+                </div>
+            </div>
+            <div class="requirement-card">
+                <div class="req-icon"><i class="fas fa-check"></i></div>
+                <div class="req-text">
+                    <h4>OR Active Investment</h4>
+                    <p>Any active investment plan with SHIMOGY qualifies you for loan consideration.</p>
+                </div>
+            </div>
+            <div class="requirement-card">
+                <div class="req-icon"><i class="fas fa-check"></i></div>
+                <div class="req-text">
+                    <h4>Valid ID</h4>
+                    <p>Ugandan national ID, passport, or driver's license for identity verification.</p>
+                </div>
+            </div>
+            <div class="requirement-card">
+                <div class="req-icon"><i class="fas fa-check"></i></div>
+                <div class="req-text">
+                    <h4>Mobile Money Registered</h4>
+                    <p>Active MTN Mobile Money or Airtel Money account for disbursement and repayment.</p>
+                </div>
+            </div>
+            <div class="requirement-card">
+                <div class="req-icon"><i class="fas fa-check"></i></div>
+                <div class="req-text">
+                    <h4>Good Standing</h4>
+                    <p>No outstanding defaults on previous SHIMOGY loans. Good repayment history required.</p>
+                </div>
+            </div>
+            <div class="requirement-card">
+                <div class="req-icon"><i class="fas fa-check"></i></div>
+                <div class="req-text">
+                    <h4>Loan Purpose</h4>
+                    <p>Clear statement of loan purpose — business, education, emergency, or personal development.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Why Choose Our Loans -->
+<div class="section-padding" style="background: rgba(0,0,0,0.15);">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-tag">Benefits</div>
+            <h2>Why Choose SHIMOGY Loans?</h2>
+            <p>Affordable financing designed for Ugandans</p>
+        </div>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon">⚡</div>
+                <h4>Fast Approval</h4>
+                <p>Submit your request via WhatsApp and get a response within minutes. No lengthy paperwork.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🔓</div>
+                <h4>No Collateral</h4>
+                <p>No need to risk your property. Your savings or investment account serves as your qualification.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">📊</div>
+                <h4>Low Interest</h4>
+                <p>Flat 10% interest rate across all loan products — one of the most affordable in Kampala.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">📱</div>
+                <h4>Mobile Disbursement</h4>
+                <p>Receive your loan directly to your MTN or Airtel mobile money account instantly upon approval.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🔄</div>
+                <h4>Flexible Repayment</h4>
+                <p>Repay in manageable installments. Choose weekly or monthly payments that fit your cash flow.</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🏆</div>
+                <h4>Build Credit History</h4>
+                <p>Timely repayments improve your standing for larger future loans at even better terms.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Nature Section -->
+<div class="section-nature-bg" style="background-image: url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1920&h=600&fit=crop'); min-height: 350px; display: flex; align-items: center;">
+    <div class="section-overlay"></div>
+    <div class="section-inner" style="text-align: center;">
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1rem; background: linear-gradient(135deg, #ffffff, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+            Ready to Get Your Loan?
+        </h2>
+        <p style="font-size: 1.1rem; color: rgba(255,255,255,0.7); margin-bottom: 2rem;">
+            Don't have an account yet? Open one today and qualify for instant loans.
+        </p>
+        <a href="savings.html" class="btn-primary" style="width: auto; padding: 16px 40px; font-size: 1.1rem;">
+            <i class="fas fa-piggy-bank"></i> Open Savings Account
+        </a>
+    </div>
+</div>
+
+<!-- LOAN MODAL -->
+<div id="loanModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3><i class="fas fa-hand-holding-usd"></i> Loan Request</h3>
+        <p style="text-align: center; color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-bottom: 0.8rem;">Fill in your details to request your loan</p>
+        
+        <!-- Selected Loan Summary -->
+        <div class="loan-summary-box" id="loanSummaryBox">
+            <p style="color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-bottom: 0.3rem;">Selected Loan Amount</p>
+            <div class="selected-amount" id="loanAmountDisplay">UGX 0</div>
+            <p style="color: rgba(255,255,255,0.45); font-size: 0.75rem; margin-top: 0.3rem;" id="loanDurationDisplay"></p>
+        </div>
+        
+        <input type="text" id="loanName" placeholder="Full Name (e.g., John Mukasa)">
+        <input type="tel" id="loanPhone" placeholder="Phone Number (e.g., 0752259416)">
+        <select id="loanAccountType">
+            <option value="">Select your account type...</option>
+            <option value="Current Savings Account">Current Savings Account</option>
+            <option value="Fixed Deposit Account">Fixed Deposit Account</option>
+            <option value="Investment Account">Investment Account</option>
+        </select>
+        <input type="text" id="loanPurpose" placeholder="Purpose of loan (e.g., Business expansion)">
+        
+        <div class="whatsapp-info">
+            <i class="fab fa-whatsapp"></i>
+            Your loan request will be sent to admin via <strong>WhatsApp (+256 752259416)</strong>
+        </div>
+        
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <button class="btn-outline-light loan-cancel-btn" style="flex: 1;">Cancel</button>
+            <button class="btn-whatsapp loan-submit-btn" style="flex: 1;">
+                <i class="fab fa-whatsapp"></i> Send Loan Request
+            </button>
+        </div>
+        <p style="text-align: center; color: rgba(255,255,255,0.3); font-size: 0.7rem; margin-top: 0.8rem;">WhatsApp opens — just tap Send</p>
+    </div>
+</div>
+
+<!-- ACCESS MODAL -->
+<div id="accessModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3><i class="fas fa-key"></i> Access Dashboard</h3>
+        <p style="text-align:center; color: rgba(255,255,255,0.6); margin-bottom: 1.5rem;">Choose your login portal</p>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <button class="btn-primary" style="flex: 1;" onclick="location.href='admin.html'"><i class="fas fa-user-cog"></i> Admin</button>
+            <button class="btn-primary" style="flex: 1; background: linear-gradient(135deg, #1e7e34, #27ae60);" onclick="location.href='dashboard.html'"><i class="fas fa-user"></i> Client</button>
+        </div>
+        <button class="btn-outline-light close-access-btn" style="margin-top: 1rem;">Close</button>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-grid">
+        <div><h3>📍 Location</h3><p>Kampala, Kawempe, Uganda</p></div>
+        <div><h3>📱 Follow Us</h3><div class="icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-tiktok"></i></a><a href="#"><i class="fab fa-youtube"></i></a><a href="https://wa.me/256752259416"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-instagram"></i></a></div></div>
+        <div><h3>📞 Contact Us</h3><p>0752259416</p><p>0746788042</p></div>
+    </div>
+    <p style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.08);">© 2026 Shimogy Investment Group - Partners for Life</p>
+</footer>
+
+<!-- JAVASCRIPT -->
+<script>
+    (function() {
+        console.log('🚀 Loans page script starting...');
+        
+        const ADMIN_WHATSAPP = "256752259416";
+        let currentLoanAmount = '';
+        let currentLoanLabel = '';
+        let currentLoanDuration = '';
+
+        // Create currency particles
+        function createCurrencyParticles() {
+            const container = document.getElementById('currencyParticles');
+            if (!container) return;
+            const coins = ['💰', '💵', '💸', '🪙', '💎', '🏦'];
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('coin-particle');
+                particle.textContent = coins[Math.floor(Math.random() * coins.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 12 + 8) + 's';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Open loan modal
+        function openLoanModal(amount, label, duration) {
+            console.log('Opening loan modal: ' + amount + ' - ' + label);
+            currentLoanAmount = amount;
+            currentLoanLabel = label;
+            currentLoanDuration = duration;
+            
+            document.getElementById('loanAmountDisplay').textContent = 'UGX ' + parseInt(amount).toLocaleString();
+            document.getElementById('loanDurationDisplay').textContent = label + ' • ' + duration + ' • 10% interest';
+            document.getElementById('loanName').value = '';
+            document.getElementById('loanPhone').value = '';
+            document.getElementById('loanAccountType').value = '';
+            document.getElementById('loanPurpose').value = '';
+            document.getElementById('loanModal').classList.add('active');
+        }
+
+        // Open custom loan modal
+        function openCustomLoanModal() {
+            const amount = prompt("Enter the loan amount you need (UGX):", "500000");
+            if (amount && !isNaN(amount.replace(/,/g, ''))) {
+                const cleanAmount = amount.replace(/,/g, '');
+                openLoanModal(cleanAmount, 'Custom Loan', 'Flexible terms');
+            } else if (amount) {
+                alert("⚠️ Please enter a valid number for the loan amount.");
+            }
+        }
+
+        // Submit loan via WhatsApp
+        function submitLoanRequest() {
+            console.log('Submitting loan request...');
+            
+            const name = document.getElementById('loanName').value.trim();
+            const phone = document.getElementById('loanPhone').value.trim();
+            const accountType = document.getElementById('loanAccountType').value;
+            const purpose = document.getElementById('loanPurpose').value.trim();
+            
+            if (!name || !phone) {
+                alert("⚠️ Please fill in your full name and phone number.");
+                return;
+            }
+            
+            if (!accountType) {
+                alert("⚠️ Please select your account type.");
+                return;
+            }
+            
+            if (!currentLoanAmount) {
+                alert("⚠️ No loan amount selected.");
+                return;
+            }
+            
+            // Build WhatsApp message
+            const message = '💰 *NEW LOAN REQUEST* 💰\n\n' +
+                '👤 *Client Name:* ' + name + '\n' +
+                '📞 *Phone Number:* ' + phone + '\n\n' +
+                '━━━━━━━━━━━━━━━━━━━━\n' +
+                '📋 *LOAN DETAILS*\n' +
+                '━━━━━━━━━━━━━━━━━━━━\n\n' +
+                '💵 *Loan Amount:* UGX ' + parseInt(currentLoanAmount).toLocaleString() + '\n' +
+                '🏷️ *Loan Type:* ' + currentLoanLabel + '\n' +
+                '⏱️ *Duration:* ' + currentLoanDuration + '\n' +
+                '📊 *Interest:* 10% flat\n' +
+                '💳 *Existing Account:* ' + accountType + '\n' +
+                '🎯 *Purpose:* ' + (purpose || 'Not specified') + '\n' +
+                '📅 *Request Date:* ' + new Date().toLocaleString() + '\n\n' +
+                '━━━━━━━━━━━━━━━━━━━━\n' +
+                '✅ *Status:* Pending Approval\n' +
+                '━━━━━━━━━━━━━━━━━━━━\n\n' +
+                '_Please verify client eligibility and process loan._';
+            
+            // Open WhatsApp
+            const whatsappURL = 'https://wa.me/' + ADMIN_WHATSAPP + '?text=' + encodeURIComponent(message);
+            console.log('Opening WhatsApp: ' + whatsappURL);
+            window.open(whatsappURL, '_blank');
+            
+            // Close modal
+            document.getElementById('loanModal').classList.remove('active');
+            
+            alert('✅ Loan request sent!\n\nYour loan request for UGX ' + parseInt(currentLoanAmount).toLocaleString() + ' has been sent to admin via WhatsApp.\n\nAdmin will call ' + phone + ' to process your loan.');
+        }
+
+        // Close loan modal
+        function closeLoanModal() {
+            document.getElementById('loanModal').classList.remove('active');
+        }
+
+        // Access modal
+        function showAccessModal() {
+            document.getElementById('accessModal').classList.add('active');
+        }
+
+        function closeAccessModal() {
+            document.getElementById('accessModal').classList.remove('active');
+        }
+
+        // Initialize
+        function init() {
+            console.log('🔧 Initializing loans page...');
+            
+            createCurrencyParticles();
+            
+            // Attach to loan amount cards
+            document.querySelectorAll('.loan-card-btn').forEach(function(card) {
+                card.addEventListener('click', function() {
+                    const amount = this.getAttribute('data-amount');
+                    const label = this.getAttribute('data-label');
+                    const duration = this.getAttribute('data-duration');
+                    openLoanModal(amount, label, duration);
+                });
+            });
+            
+            // Attach to custom loan button
+            const customBtn = document.querySelector('.custom-loan-btn');
+            if (customBtn) {
+                customBtn.addEventListener('click', openCustomLoanModal);
+            }
+            
+            // Attach to submit button
+            const submitBtn = document.querySelector('.loan-submit-btn');
+            if (submitBtn) {
+                submitBtn.addEventListener('click', submitLoanRequest);
+            }
+            
+            // Attach to cancel button
+            const cancelBtn = document.querySelector('.loan-cancel-btn');
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', closeLoanModal);
+            }
+            
+            // Access modal
+            const accessBtn = document.getElementById('accessBtn');
+            if (accessBtn) {
+                accessBtn.addEventListener('click', showAccessModal);
+            }
+            
+            const closeAccessBtn = document.querySelector('.close-access-btn');
+            if (closeAccessBtn) {
+                closeAccessBtn.addEventListener('click', closeAccessModal);
+            }
+            
+            // Close modals on outside click
+            document.getElementById('loanModal').addEventListener('click', function(e) {
+                if (e.target === this) closeLoanModal();
+            });
+            
+            document.getElementById('accessModal').addEventListener('click', function(e) {
+                if (e.target === this) closeAccessModal();
+            });
+            
+            console.log('✅ Loans page fully initialized!');
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    })();
+</script>
+
+</body>
+</html>

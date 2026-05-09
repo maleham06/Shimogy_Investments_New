@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIMOGY | Cycles - Community Saving Groups</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700;6..96,800;6..96,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            
+            background-size: cover !important;
+            background-attachment: fixed !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-color: #0a1628 !important;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        body::before, body::after { display: none !important; content: none !important; }
+
+        /* Particles */
+        .cycle-particles {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none; overflow: hidden;
+        }
+        .cycle-dot {
+            position: absolute; width: 3px; height: 3px; border-radius: 50%;
+            background: rgba(0, 180, 216, 0.3); animation: dotFloat 12s infinite linear;
+        }
+        @keyframes dotFloat {
+            0% { transform: translateY(100vh); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-10vh); opacity: 0; }
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(6, 13, 26, 0.94); backdrop-filter: blur(20px);
+            padding: 0.8rem 2rem; position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(0, 180, 216, 0.2); box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        }
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .logo-area { display: flex; align-items: center; gap: 12px; cursor: pointer; text-decoration: none; }
+        .logo-area img { height: 50px; width: auto; border-radius: 12px; object-fit: cover; box-shadow: 0 0 20px rgba(0,180,216,0.3); border: 2px solid rgba(0,180,216,0.4); }
+        .logo-placeholder { width: 42px; height: 42px; background: linear-gradient(135deg, #00b4d8, #0077b6); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: white; }
+        .logo-text h1 { font-family: 'Bodoni Moda', serif; font-size: 1.4rem; font-weight: 900; background: linear-gradient(135deg, #ffffff, #48cae4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; letter-spacing: 2px; }
+        .logo-text p { font-size: 0.55rem; letter-spacing: 3px; color: #48cae4; font-weight: 600; }
+        .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+        .nav-links a { text-decoration: none; font-weight: 500; color: rgba(255,255,255,0.85); transition: 0.3s; padding: 0.5rem 0; position: relative; font-size: 0.8rem; letter-spacing: 0.5px; }
+        .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0%; height: 2px; background: linear-gradient(90deg, #00b4d8, #48cae4); transition: width 0.3s; }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a:hover, .nav-links a.active { color: #48cae4; }
+        .account-icon { width: 38px; height: 38px; background: linear-gradient(135deg, #00b4d8, #0077b6); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; font-size: 1.1rem; color: white; }
+        .account-icon:hover { transform: scale(1.1); }
+
+        /* Page Header */
+        .page-header {
+            position: relative; padding: 3.5rem 2rem; text-align: center; z-index: 1;
+            background: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1920&h=500&fit=crop') center/cover no-repeat;
+            background-attachment: fixed;
+        }
+        .page-header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(6,13,26,0.92) 0%, rgba(6,20,40,0.8) 100%); z-index: -1; }
+        .page-header .tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(0,180,216,0.1); border: 1px solid rgba(0,180,216,0.25); padding: 6px 16px; border-radius: 50px; color: #48cae4; font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; margin-bottom: 1rem; }
+        .page-header h1 { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 800; background: linear-gradient(135deg, #ffffff, #48cae4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.8rem; }
+        .page-header p { font-size: 1rem; color: rgba(255,255,255,0.6); max-width: 500px; margin: 0 auto; }
+
+        /* Sections */
+        .section-padding { padding: 3rem 1.5rem; position: relative; z-index: 1; }
+        .section-bg { padding: 3rem 1.5rem; position: relative; z-index: 1; background-size: cover; background-position: center; background-attachment: fixed; }
+        .section-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(6,13,26,0.93) 0%, rgba(6,20,40,0.87) 100%); z-index: 1; }
+        .section-inner { position: relative; z-index: 2; max-width: 1000px; margin: 0 auto; }
+        .section-title { text-align: center; margin-bottom: 2.5rem; }
+        .section-title .tag { display: inline-block; color: #48cae4; font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .section-title h2 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, #ffffff, #48cae4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .section-title p { color: rgba(255,255,255,0.55); font-size: 0.9rem; margin-top: 0.4rem; }
+
+        /* Startup Note */
+        .startup-note {
+            background: rgba(255, 152, 0, 0.04); border: 1px solid rgba(255, 152, 0, 0.18);
+            border-radius: 14px; padding: 1.2rem; text-align: center; max-width: 650px; margin: 0 auto 2.5rem;
+        }
+        .startup-note p { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+        .startup-note strong { color: #ffb800; }
+
+        /* Cycle Cards */
+        .cycles-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;
+            max-width: 1000px; margin: 0 auto;
+        }
+        .cycle-card {
+            background: rgba(15, 40, 60, 0.3); backdrop-filter: blur(12px);
+            border-radius: 20px; overflow: hidden; border: 1px solid rgba(0, 180, 216, 0.15);
+            transition: all 0.3s;
+        }
+        .cycle-card:hover { transform: translateY(-5px); border-color: rgba(0,180,216,0.4); }
+        .cycle-card .cycle-img { height: 160px; background-size: cover; background-position: center; }
+        .cycle-card .cycle-body { padding: 1.3rem; }
+        .cycle-card h4 { color: #48cae4; font-size: 1rem; margin-bottom: 0.4rem; }
+        .cycle-card .contribution { font-size: 1.3rem; font-weight: 700; color: #ffd700; }
+        .cycle-card .members-info { color: rgba(255,255,255,0.5); font-size: 0.8rem; margin: 0.5rem 0; }
+        .cycle-card .status-badge {
+            display: inline-block; padding: 3px 10px; border-radius: 15px; font-size: 0.7rem; font-weight: 600;
+        }
+        .status-open { background: rgba(0,230,118,0.12); color: #00e676; }
+        .status-filling { background: rgba(255,152,0,0.12); color: #ffb800; }
+        .status-active { background: rgba(0,180,216,0.12); color: #48cae4; }
+
+        /* How Cycles Work */
+        .how-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;
+        }
+        .how-card {
+            background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px; padding: 1.5rem; text-align: center;
+        }
+        .how-card .how-icon { font-size: 2rem; margin-bottom: 0.6rem; }
+        .how-card h4 { color: #48cae4; font-size: 0.9rem; margin-bottom: 0.3rem; }
+        .how-card p { color: rgba(255,255,255,0.5); font-size: 0.8rem; }
+
+        /* Create Cycle */
+        .create-cycle-box {
+            background: rgba(10,40,80,0.2); backdrop-filter: blur(15px);
+            border: 1px solid rgba(0,180,216,0.15); border-radius: 20px;
+            padding: 2rem; text-align: center; max-width: 550px; margin: 0 auto;
+        }
+        .create-cycle-box h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 0.5rem; }
+        .create-cycle-box input {
+            width: 100%; padding: 11px 16px; margin: 6px 0; border-radius: 50px;
+            border: 1px solid rgba(0,180,216,0.25); background: rgba(255,255,255,0.04);
+            color: white; outline: none; font-size: 0.9rem;
+        }
+        .create-cycle-box input:focus { border-color: #00b4d8; }
+        .create-cycle-box input::placeholder { color: rgba(255,255,255,0.3); }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #00b4d8, #0077b6); border: none; padding: 11px 22px;
+            border-radius: 50px; font-weight: 600; font-size: 0.85rem; color: white; cursor: pointer;
+            transition: all 0.3s; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,180,216,0.4); }
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E); border: none; padding: 11px 22px;
+            border-radius: 50px; font-weight: 600; font-size: 0.85rem; color: white; cursor: pointer;
+            transition: all 0.3s; display: inline-flex; align-items: center; gap: 6px;
+            flex: 1; justify-content: center;
+        }
+        .btn-whatsapp:hover { transform: translateY(-2px); }
+        .btn-outline {
+            background: transparent; border: 1px solid rgba(0,180,216,0.35); padding: 11px 22px;
+            border-radius: 50px; font-weight: 600; font-size: 0.85rem; color: rgba(255,255,255,0.7);
+            cursor: pointer; transition: all 0.3s; flex: 1; text-align: center;
+        }
+        .btn-outline:hover { background: rgba(0,180,216,0.1); border-color: #48cae4; color: white; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(6,13,26,0.93); backdrop-filter: blur(12px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10000; visibility: hidden; opacity: 0; transition: 0.3s;
+        }
+        .modal-overlay.active { visibility: visible; opacity: 1; }
+        .modal-content {
+            background: linear-gradient(135deg, #0a1a35, #0d2247); border-radius: 22px;
+            padding: 2rem; width: 90%; max-width: 460px;
+            border: 1px solid rgba(0,180,216,0.3); box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        .modal-content h3 { color: #48cae4; font-size: 1.1rem; text-align: center; margin-bottom: 0.8rem; }
+        .modal-content input {
+            width: 100%; padding: 12px 16px; margin: 6px 0; border-radius: 50px;
+            border: 1px solid rgba(0,180,216,0.25); background: rgba(255,255,255,0.04);
+            color: white; outline: none; font-size: 0.9rem;
+        }
+        .modal-content input:focus { border-color: #00b4d8; }
+        .modal-content input::placeholder { color: rgba(255,255,255,0.3); }
+        .whatsapp-note {
+            background: rgba(37,211,102,0.06); border: 1px solid rgba(37,211,102,0.18);
+            border-radius: 10px; padding: 0.6rem; text-align: center; font-size: 0.75rem;
+            color: rgba(255,255,255,0.55); margin: 0.7rem 0;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(6,13,26,0.96); padding: 2rem 1.5rem; text-align: center;
+            border-top: 1px solid rgba(0,180,216,0.15); position: relative; z-index: 1; margin-top: auto;
+        }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; max-width: 800px; margin: 0 auto 1.5rem; }
+        .icons { display: flex; gap: 12px; justify-content: center; font-size: 20px; }
+        .icons a { color: rgba(255,255,255,0.5); transition: 0.3s; }
+        .icons a:hover { color: #48cae4; transform: scale(1.15); }
+
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2rem; }
+            .nav-container { flex-direction: column; gap: 0.6rem; }
+            .cycles-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="cycle-particles" id="cycleParticles"></div>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="nav-container">
+        <div class="logo-area" onclick="location.href='index.html'">
+            <img src="images/logobg.png" alt="SHIMOGY Logo">
+            <div class="logo-placeholder"><i class="fas fa-chart-line"></i></div>
+            <div class="logo-text"><h1>SHIMOGY</h1><p>INVESTMENT GROUP</p></div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="investments.html">Investments</a>
+            <a href="cycles.html" class="active">Cycles</a>
+            <a href="savings.html">Savings</a>
+            <a href="loans.html">Loans</a>
+            <a href="updates.html">Updates</a>
+            <a href="about.html">About Us</a>
+            <a href="dashboard.html">My Dashboard</a>
+            <div class="account-icon" onclick="alert('🔐 Contact admin for dashboard access')"><i class="fas fa-user-shield"></i></div>
+        </div>
+    </div>
+</div>
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="tag"><i class="fas fa-users"></i> Community Savings</div>
+    <h1>Join a Savings Cycle</h1>
+    <p>Pool resources with trusted community members — everyone gets their turn to receive the full pot</p>
+</div>
+
+<!-- Realistic Note -->
+<div class="section-padding" style="padding-bottom: 0;">
+    <div class="section-inner">
+        <div class="startup-note">
+            <p>🔄 <strong>How cycles work:</strong> Members contribute a fixed amount weekly or monthly. Each cycle, one member receives the total pooled amount. It rotates until everyone has received their share. Simple, trusted, community-based saving.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Active Cycles -->
+<div class="section-padding">
+    <div class="section-inner">
+        <div class="section-title">
+            <div class="tag">Available Groups</div>
+            <h2>Active Savings Cycles</h2>
+            <p>Join an existing group or start your own</p>
+        </div>
+        <div class="cycles-grid" id="cyclesGrid"></div>
+    </div>
+</div>
+
+<!-- How Cycles Work -->
+<div class="section-bg" style="background-image: url('https://images.unsplash.com/photo-1543269865-cbf427effbad?w=1920&h=600&fit=crop');">
+    <div class="section-overlay"></div>
+    <div class="section-inner">
+        <div class="section-title">
+            <div class="tag">How It Works</div>
+            <h2>Understanding Savings Cycles</h2>
+            <p>A traditional saving method that works</p>
+        </div>
+        <div class="how-grid">
+            <div class="how-card">
+                <div class="how-icon">👥</div>
+                <h4>Form a Group</h4>
+                <p>4-10 members agree on a contribution amount and schedule.</p>
+            </div>
+            <div class="how-card">
+                <div class="how-icon">💰</div>
+                <h4>Contribute Regularly</h4>
+                <p>Everyone pays their share weekly or monthly as agreed.</p>
+            </div>
+            <div class="how-card">
+                <div class="how-icon">🎯</div>
+                <h4>Take Turns</h4>
+                <p>Each cycle, one member receives the full pooled amount.</p>
+            </div>
+            <div class="how-card">
+                <div class="how-icon">🔄</div>
+                <h4>Rotate & Repeat</h4>
+                <p>Continues until everyone has received — then start again!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Your Own Cycle -->
+<div class="section-padding">
+    <div class="section-inner">
+        <div class="section-title">
+            <div class="tag">Start a Group</div>
+            <h2>Create Your Own Cycle</h2>
+            <p>Propose a new savings group and invite others to join</p>
+        </div>
+        <div class="create-cycle-box">
+            <h3>✨ Propose a New Cycle</h3>
+            <p style="color:rgba(255,255,255,0.5);font-size:0.85rem;margin-bottom:1rem;">Admin will review and activate your group</p>
+            <input type="text" id="newCycleName" placeholder="Cycle name (e.g., Kawempe Savers)">
+            <input type="number" id="newCycleAmount" placeholder="Contribution amount (UGX)">
+            <input type="text" id="newCyclePhone" placeholder="Your phone number">
+            <button class="btn-primary" id="createCycleBtn" style="width:100%;margin-top:0.5rem;justify-content:center;">
+                <i class="fas fa-plus-circle"></i> Send Proposal via WhatsApp
+            </button>
+            <p style="color:rgba(255,255,255,0.3);font-size:0.7rem;margin-top:0.6rem;">Admin reviews proposals within 24 hours</p>
+        </div>
+    </div>
+</div>
+
+<!-- CYCLE JOIN MODAL -->
+<div id="cycleModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3 id="cycleModalTitle"><i class="fas fa-users"></i> Join Cycle</h3>
+        <p style="text-align:center;color:rgba(255,255,255,0.45);font-size:0.8rem;margin-bottom:0.8rem;">
+            Fill in your details to join this savings group
+        </p>
+        <div id="cycleSummaryBox" style="background:rgba(0,180,216,0.06);border:1px solid rgba(0,180,216,0.18);border-radius:12px;padding:0.8rem;text-align:center;margin-bottom:0.8rem;">
+            <p style="color:#48cae4;font-weight:600;font-size:0.9rem;" id="cycleSummaryName"></p>
+            <p style="color:#ffd700;font-weight:700;font-size:1.1rem;" id="cycleSummaryAmount"></p>
+        </div>
+        <input type="text" id="cycleName" placeholder="Full Name (e.g., John Mukasa)">
+        <input type="tel" id="cyclePhone" placeholder="Phone Number (e.g., 0752259416)">
+        <div class="whatsapp-note">
+            <i class="fab fa-whatsapp"></i> Your request goes to admin via <strong>WhatsApp (+256 752259416)</strong>
+        </div>
+        <div style="display:flex;gap:0.8rem;margin-top:0.8rem;">
+            <button class="btn-outline" id="cycleCancel" style="flex:1;">Cancel</button>
+            <button class="btn-whatsapp" id="cycleSubmit" style="flex:1;">
+                <i class="fab fa-whatsapp"></i> Send Request
+            </button>
+        </div>
+        <p style="text-align:center;color:rgba(255,255,255,0.2);font-size:0.65rem;margin-top:0.6rem;">WhatsApp opens — just tap Send</p>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-grid">
+        <div><h3>📍 Location</h3><p>Kawempe, Kampala, Uganda</p></div>
+        <div><h3>📱 Follow Us</h3><div class="icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-tiktok"></i></a><a href="#"><i class="fab fa-youtube"></i></a><a href="https://wa.me/256752259416"><i class="fab fa-whatsapp"></i></a></div></div>
+        <div><h3>📞 Contact</h3><p>0752259416</p><p>0746788042</p></div>
+    </div>
+    <p style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.06);font-size:0.75rem;color:rgba(255,255,255,0.35);">© 2026 Shimogy Investment Group — Partners for Life</p>
+</footer>
+
+<script>
+    (function() {
+        console.log('🔄 Cycles page starting...');
+        const ADMIN_WHATSAPP = '256752259416';
+        let currentCycle = null;
+
+        // Particles
+        function createParticles() {
+            const c = document.getElementById('cycleParticles');
+            if (!c) return;
+            for (let i = 0; i < 30; i++) {
+                const d = document.createElement('div');
+                d.classList.add('cycle-dot');
+                d.style.left = Math.random() * 100 + '%';
+                d.style.animationDuration = (Math.random() * 12 + 8) + 's';
+                d.style.animationDelay = Math.random() * 8 + 's';
+                c.appendChild(d);
+            }
+        }
+
+        // Realistic cycles data
+        const cycles = [
+            { id: 1, name: 'GROUP 1 — Kawempe Savers', contribution: 3000, members: 4, maxMembers: 8, status: 'active', img: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&h=300&fit=crop' },
+            { id: 2, name: 'GROUP 2 — Weekly Builders', contribution: 5000, members: 5, maxMembers: 10, status: 'active', img: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=500&h=300&fit=crop' },
+            { id: 3, name: 'GROUP 3 — Bwaise United', contribution: 10000, members: 6, maxMembers: 12, status: 'filling', img: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=500&h=300&fit=crop' },
+            { id: 4, name: 'GROUP 4 — Kampala Trust', contribution: 50000, members: 3, maxMembers: 8, status: 'open', img: 'https://images.unsplash.com/photo-1557425529-b1ae9c141e7d?w=500&h=300&fit=crop' }
+        ];
+
+        // Render cycles
+        function renderCycles() {
+            const grid = document.getElementById('cyclesGrid');
+            if (!grid) return;
+            grid.innerHTML = cycles.map(function(c) {
+                let statusBadge = '';
+                if (c.status === 'open') statusBadge = '<span class="status-badge status-open">🟢 Open — Join Now</span>';
+                if (c.status === 'filling') statusBadge = '<span class="status-badge status-filling">🟡 Filling Up</span>';
+                if (c.status === 'active') statusBadge = '<span class="status-badge status-active">🔵 Active</span>';
+                
+                return `
+                    <div class="cycle-card">
+                        <div class="cycle-img" style="background-image:url('${c.img}');"></div>
+                        <div class="cycle-body">
+                            <h4>${c.name}</h4>
+                            <div class="contribution">UGX ${c.contribution.toLocaleString()}</div>
+                            <div class="members-info">👥 ${c.members}/${c.maxMembers} members • per cycle</div>
+                            ${statusBadge}
+                            <button class="btn-primary join-cycle-btn" data-id="${c.id}" data-name="${c.name}" data-amount="${c.contribution}" style="width:100%;margin-top:0.8rem;justify-content:center;">
+                                <i class="fas fa-user-plus"></i> Join This Cycle
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Attach event listeners
+            document.querySelectorAll('.join-cycle-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const name = this.getAttribute('data-name');
+                    const amount = this.getAttribute('data-amount');
+                    openCycleModal(id, name, amount);
+                });
+            });
+        }
+
+        // Open cycle modal
+        function openCycleModal(id, name, amount) {
+            currentCycle = { id: id, name: name, amount: amount };
+            document.getElementById('cycleSummaryName').textContent = name;
+            document.getElementById('cycleSummaryAmount').textContent = 'UGX ' + parseInt(amount).toLocaleString() + ' per cycle';
+            document.getElementById('cycleName').value = '';
+            document.getElementById('cyclePhone').value = '';
+            document.getElementById('cycleModal').classList.add('active');
+        }
+
+        // Submit cycle join
+        function submitCycleJoin() {
+            const name = document.getElementById('cycleName').value.trim();
+            const phone = document.getElementById('cyclePhone').value.trim();
+            if (!name || !phone) { alert('⚠️ Please fill in your name and phone number.'); return; }
+            if (!currentCycle) { alert('⚠️ No cycle selected.'); return; }
+
+            const message = '🔄 *CYCLE JOIN REQUEST* 🔄\n\n' +
+                '👤 *Name:* ' + name + '\n📞 *Phone:* ' + phone + '\n\n' +
+                '📋 *Cycle:* ' + currentCycle.name + '\n' +
+                '💰 *Contribution:* UGX ' + parseInt(currentCycle.amount).toLocaleString() + ' per cycle\n' +
+                '📅 *Date:* ' + new Date().toLocaleString() + '\n\n' +
+                '_Please confirm membership and payment schedule._';
+
+            window.open('https://wa.me/' + ADMIN_WHATSAPP + '?text=' + encodeURIComponent(message), '_blank');
+            document.getElementById('cycleModal').classList.remove('active');
+            alert('✅ Request sent!\n\nYour request to join ' + currentCycle.name + ' has been sent to admin via WhatsApp.\nAdmin will call ' + phone + ' to confirm.');
+        }
+
+        // Create cycle via WhatsApp
+        function createCycleProposal() {
+            const cycleName = document.getElementById('newCycleName').value.trim();
+            const amount = document.getElementById('newCycleAmount').value.trim();
+            const phone = document.getElementById('newCyclePhone').value.trim();
+            if (!cycleName || !amount || !phone) { alert('⚠️ Please fill in all fields.'); return; }
+
+            const message = '🆕 *NEW CYCLE PROPOSAL* 🆕\n\n' +
+                '📋 *Cycle Name:* ' + cycleName + '\n' +
+                '💰 *Contribution:* UGX ' + parseInt(amount).toLocaleString() + '\n' +
+                '📞 *Proposed by:* ' + phone + '\n' +
+                '📅 *Date:* ' + new Date().toLocaleString() + '\n\n' +
+                '_Please review and activate this cycle._';
+
+            window.open('https://wa.me/' + ADMIN_WHATSAPP + '?text=' + encodeURIComponent(message), '_blank');
+            document.getElementById('newCycleName').value = '';
+            document.getElementById('newCycleAmount').value = '';
+            document.getElementById('newCyclePhone').value = '';
+            alert('✅ Cycle proposal sent!\n\nAdmin will review your proposal and get back to you.');
+        }
+
+        function closeModal() { document.getElementById('cycleModal').classList.remove('active'); }
+
+        function init() {
+            createParticles();
+            renderCycles();
+
+            document.getElementById('cycleSubmit').addEventListener('click', submitCycleJoin);
+            document.getElementById('cycleCancel').addEventListener('click', closeModal);
+            document.getElementById('createCycleBtn').addEventListener('click', createCycleProposal);
+            document.getElementById('cycleModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+
+            console.log('✅ Cycles page ready');
+        }
+
+        if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); } else { init(); }
+    })();
+</script>
+
+</body>
+</html>
